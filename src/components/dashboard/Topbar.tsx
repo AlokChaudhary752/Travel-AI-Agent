@@ -31,10 +31,12 @@ export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
   ];
 
   return (
-    <header className="h-16 bg-[#070A0F]/80 backdrop-blur-xl border-b border-gold/15 px-6 flex items-center justify-between sticky top-0 z-20">
+    <header suppressHydrationWarning className="h-16 bg-[#070A0F]/80 backdrop-blur-xl border-b border-gold/15 px-6 flex items-center justify-between sticky top-0 z-20">
       {/* Left: Mobile Menu & Global Search Trigger */}
       <div className="flex items-center gap-4 flex-1 max-w-md">
         <button
+          type="button"
+          suppressHydrationWarning
           onClick={onToggleMobileMenu}
           className="lg:hidden p-1.5 text-muted hover:text-ivory"
           aria-label="Open navigation drawer"
@@ -43,6 +45,8 @@ export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
         </button>
 
         <button
+          type="button"
+          suppressHydrationWarning
           onClick={onOpenCommand}
           className="w-full flex items-center justify-between px-3.5 py-2 bg-surface-elevated/70 border border-white/10 hover:border-gold/40 text-muted hover:text-ivory transition-colors text-xs font-mono rounded-none"
         >
@@ -60,6 +64,8 @@ export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
       <div className="flex items-center gap-4">
         {/* Currency Switcher */}
         <button
+          type="button"
+          suppressHydrationWarning
           onClick={() => {
             const list = ["USD", "INR", "EUR", "GBP"];
             const nextIndex = (list.indexOf(currency) + 1) % list.length;
@@ -75,6 +81,8 @@ export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
         {/* Notifications Bell */}
         <div className="relative">
           <button
+            type="button"
+            suppressHydrationWarning
             onClick={() => setShowNotifications(!showNotifications)}
             className="p-2 text-muted hover:text-gold transition-colors relative"
             aria-label="Notifications"

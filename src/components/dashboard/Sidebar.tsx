@@ -40,6 +40,7 @@ export function Sidebar({ onOpenMemory }: SidebarProps) {
 
   return (
     <aside
+      suppressHydrationWarning
       className={`h-screen sticky top-0 bg-[#070A0F] border-r border-gold/15 flex flex-col justify-between transition-all duration-300 z-30 ${
         collapsed ? "w-20" : "w-64"
       }`}
@@ -58,6 +59,7 @@ export function Sidebar({ onOpenMemory }: SidebarProps) {
             )}
           </Link>
           <button
+            type="button"
             suppressHydrationWarning
             onClick={() => setCollapsed(!collapsed)}
             className="p-1 text-muted hover:text-gold transition-colors hidden lg:block"
@@ -104,6 +106,8 @@ export function Sidebar({ onOpenMemory }: SidebarProps) {
       {/* Bottom Memory & Member Status Card */}
       <div className="p-3 border-t border-white/5 space-y-2">
         <button
+          type="button"
+          suppressHydrationWarning
           onClick={onOpenMemory}
           className="w-full flex items-center gap-2.5 p-2.5 bg-surface-elevated/70 border border-gold/20 hover:border-gold/50 transition-all text-left group"
         >
