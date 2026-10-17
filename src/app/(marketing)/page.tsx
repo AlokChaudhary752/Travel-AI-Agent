@@ -13,14 +13,21 @@ import { FinalCTA } from "@/features/landing/components/FinalCTA";
 export default function LandingPage() {
   const [loaderComplete, setLoaderComplete] = useState(false);
 
+  React.useEffect(() => {
+    const safety = setTimeout(() => {
+      setLoaderComplete(true);
+    }, 1500);
+    return () => clearTimeout(safety);
+  }, []);
+
   return (
     <>
       {!loaderComplete && (
         <CinematicLoader onComplete={() => setLoaderComplete(true)} />
       )}
       <div
-        className={`transition-opacity duration-1000 ${
-          loaderComplete ? "opacity-100" : "opacity-0"
+        className={`transition-opacity duration-700 ${
+          loaderComplete ? "opacity-100" : "opacity-90"
         }`}
       >
         <HeroSection />

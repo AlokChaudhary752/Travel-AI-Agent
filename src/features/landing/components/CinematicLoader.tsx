@@ -4,23 +4,27 @@ import React, { useEffect, useState } from "react";
 import { Compass } from "lucide-react";
 
 export function CinematicLoader({ onComplete }: { onComplete: () => void }) {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(20);
   const [isFading, setIsFading] = useState(false);
+  const onCompleteRef = React.useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
-  const handleSkip = () => {
+  const handleSkip = React.useCallback(() => {
+    if (typeof window !== "undefined") sessionStorage.setItem("voyara_intro_seen", "1");
     setIsFading(true);
-    setTimeout(onComplete, 300);
-  };
+    setTimeout(() => {
+      onCompleteRef.current();
+    }, 200);
+  }, []);
 
   useEffect(() => {
-    // Quick load if reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      onComplete();
+    if (typeof window !== "undefined" && (
+      sessionStorage.getItem("voyara_intro_seen") === "1" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )) {
+      onCompleteRef.current();
       return;
     }
-
-    // Safety timeout to ensure entry within 1.5s
-    const safetyTimeout = setTimeout(handleSkip, 1500);
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -29,16 +33,17 @@ export function CinematicLoader({ onComplete }: { onComplete: () => void }) {
           handleSkip();
           return 100;
         }
-        const increment = Math.max(2, Math.floor((100 - prev) * 0.25));
-        return Math.min(100, prev + increment);
+        return Math.min(100, prev + 20);
       });
-    }, 35);
+    }, 40);
+
+    const safety = setTimeout(handleSkip, 700);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(safetyTimeout);
+      clearTimeout(safety);
     };
-  }, [onComplete]);
+  }, [handleSkip]);
 
   return (
     <div
