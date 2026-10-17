@@ -88,14 +88,14 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${cormorant.variable} ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-bg text-ivory antialiased selection:bg-gold selection:text-bg">
+      <body suppressHydrationWarning className="bg-bg text-ivory antialiased selection:bg-gold selection:text-bg">
         <div className="film-grain" aria-hidden="true" />
         <CustomCursor />
         {children}

@@ -58,6 +58,7 @@ export function Sidebar({ onOpenMemory }: SidebarProps) {
             )}
           </Link>
           <button
+            suppressHydrationWarning
             onClick={() => setCollapsed(!collapsed)}
             className="p-1 text-muted hover:text-gold transition-colors hidden lg:block"
             aria-label="Collapse sidebar"
