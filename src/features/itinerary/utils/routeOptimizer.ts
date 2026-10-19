@@ -176,11 +176,12 @@ export function minutesToTime(minutes: number): string {
  */
 export function recalculateSchedule(
   stops: ItineraryStop[],
-  dayStartTime = "09:00"
+  dayStartTime?: string
 ): ItineraryStop[] {
   if (stops.length === 0) return [];
 
-  let currentMin = timeToMinutes(stops[0].startTime || dayStartTime);
+  const initialTime = dayStartTime || stops[0].startTime || "09:00";
+  let currentMin = timeToMinutes(initialTime);
 
   return stops.map((stop, idx) => {
     if (idx > 0) {

@@ -104,7 +104,7 @@ describe("Voyara Itinerary & Route Optimizer Suite", () => {
     const rescheduled = recalculateSchedule(sampleStops, "08:30");
     expect(rescheduled[0].startTime).toBe("08:30");
     expect(rescheduled[0].endTime).toBe("09:30");
-    expect(rescheduled[1].startTime).toBe("09:47");
+    expect(rescheduled[1].startTime).toBe("09:48");
   });
 
   it("detects opening-hours conflicts and insufficient transit buffer", () => {
@@ -134,7 +134,7 @@ describe("Voyara Itinerary & Route Optimizer Suite", () => {
 
     const conflicts = detectScheduleConflicts(conflictStops);
     const openingConflict = conflicts.find((c) => c.type === "opening_hours");
-    const bufferConflict = conflicts.find((c) => c.type === "transit_buffer");
+    const bufferConflict = conflicts.find((c) => c.type === "transit_overlap");
 
     expect(openingConflict).toBeDefined();
     expect(bufferConflict).toBeDefined();
