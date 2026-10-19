@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, Check, Clock, MapPin, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Clock, MapPin, MessageCircle, FileText } from "lucide-react";
 import { CURATED_PACKAGES, PackageItem, AGENCY_DETAILS } from "../data/agencyData";
+import { PackageDetailModal } from "./PackageDetailModal";
 
 interface CuratedPackagesProps {
   onOpenEnquiry: (destination?: string, packageTitle?: string) => void;
@@ -10,6 +11,7 @@ interface CuratedPackagesProps {
 
 export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
   const [activeTheme, setActiveTheme] = useState<string>("All");
+  const [selectedPkgForDossier, setSelectedPkgForDossier] = useState<PackageItem | null>(null);
 
   const themes = [
     "All",
@@ -26,7 +28,7 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
 
   const handleWhatsAppInquiry = (pkg: PackageItem) => {
     const text = encodeURIComponent(
-      `Hello ${AGENCY_DETAILS.name}! I am interested in the "${pkg.title}" package (${pkg.duration}, starting at ${pkg.priceInr}). Could you please share the detailed itinerary and availability?`
+      `Hello ${AGENCY_DETAILS.name}! I am interested in the "${pkg.title}" journey (${pkg.duration}, starting at ${pkg.priceInr}). Could you please share the detailed itinerary and availability?`
     );
     window.open(`https://wa.me/919820086927?text=${text}`, "_blank");
   };
@@ -44,11 +46,11 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
               Curated Private Packages
             </h2>
             <p className="text-sand/70 text-sm sm:text-base font-light max-w-xl font-sans">
-              Each package represents an authentic bespoke journey with pre-negotiated five-star suite privileges, private chauffeurs, and dedicated on-ground concierge support.
+              Authentic bespoke journeys with pre-inspected suites, private chauffeurs, and dedicated on-ground concierge support.
             </p>
           </div>
 
-          {/* Theme Filters (No Page Reload) */}
+          {/* Theme Filters (Zero Full-Page Reload) */}
           <div className="flex flex-wrap gap-2">
             {themes.map((t) => (
               <button
@@ -75,7 +77,10 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
               className="bg-[#092A2D] border border-teal-soft/40 hover:border-terracotta/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl"
             >
               {/* Image & Badges */}
-              <div className="relative h-60 overflow-hidden">
+              <div
+                onClick={() => setSelectedPkgForDossier(pkg)}
+                className="relative h-60 overflow-hidden cursor-pointer"
+              >
                 <img
                   src={pkg.image}
                   alt={pkg.title}
@@ -100,18 +105,21 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
                     <span>{pkg.destination}</span>
                   </div>
 
-                  <h3 className="font-display text-2xl text-sand font-light group-hover:text-terracotta-soft transition-colors leading-snug">
+                  <h3
+                    onClick={() => setSelectedPkgForDossier(pkg)}
+                    className="font-display text-2xl sm:text-3xl text-sand font-light group-hover:text-terracotta-soft transition-colors cursor-pointer"
+                  >
                     {pkg.title}
                   </h3>
 
-                  <p className="text-sand/70 text-xs font-light mt-2 leading-relaxed">
+                  <p className="text-sand/70 text-xs font-light leading-relaxed mt-2">
                     {pkg.tagline}
                   </p>
 
-                  {/* Highlights Bullet List */}
+                  {/* Highlights Bullet Points */}
                   <div className="mt-4 pt-3 border-t border-teal-soft/20 space-y-2">
-                    {pkg.highlights.map((h, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs text-sand/80 font-sans">
+                    {pkg.highlights.slice(0, 3).map((h, i) => (
+                      <div key={i} className="flex items-start gap-2 text-xs text-sand/80 font-light">
                         <Check className="w-3.5 h-3.5 text-terracotta flex-shrink-0 mt-0.5" />
                         <span>{h}</span>
                       </div>
@@ -131,9 +139,14 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
                       </span>
                     </div>
 
-                    <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                      Taxes & GST Included
-                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPkgForDossier(pkg)}
+                      className="text-[11px] font-mono text-terracotta-soft hover:underline flex items-center gap-1"
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Full Dossier</span>
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -161,6 +174,14 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
           ))}
         </div>
       </div>
+
+      {/* Package Detail Modal */}
+      <PackageDetailModal
+        pkg={selectedPkgForDossier}
+        isOpen={Boolean(selectedPkgForDossier)}
+        onClose={() => setSelectedPkgForDossier(null)}
+        onBookNow={(title, dest) => onOpenEnquiry(dest, title)}
+      />
     </section>
   );
 }

@@ -9,6 +9,7 @@ import { WhyTravelWithUs } from "@/features/agency/components/WhyTravelWithUs";
 import { HowItWorksProcess } from "@/features/agency/components/HowItWorksProcess";
 import { RealTestimonials } from "@/features/agency/components/RealTestimonials";
 import { SampleItineraryTimeline } from "@/features/agency/components/SampleItineraryTimeline";
+import { EditorialJournal } from "@/features/agency/components/EditorialJournal";
 import { FAQAccordion } from "@/features/agency/components/FAQAccordion";
 import { FinalEnquiryBand } from "@/features/agency/components/FinalEnquiryBand";
 import { EnquiryModal } from "@/features/agency/components/EnquiryModal";
@@ -55,7 +56,10 @@ export default function AgencyHomePage() {
         <SampleItineraryTimeline onOpenEnquiry={handleOpenEnquiry} />
       </section>
 
-      {/* 9. Travel Guides & FAQ Accordion */}
+      {/* 9. Editorial Field Journal */}
+      <EditorialJournal />
+
+      {/* 10. Travel Guides & FAQ Accordion */}
       <FAQAccordion />
 
       {/* 10. Final Enquiry Band with 4-Field Form & WhatsApp CTA */}

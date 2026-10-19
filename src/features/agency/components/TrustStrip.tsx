@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Star, ShieldCheck, Award, CheckCircle2 } from "lucide-react";
+import { Star, ShieldCheck, Award, Lock, CheckCircle2 } from "lucide-react";
 import { AGENCY_DETAILS } from "../data/agencyData";
 
 export function TrustStrip() {
@@ -9,37 +9,48 @@ export function TrustStrip() {
     {
       label: "Years in Private Travel",
       value: AGENCY_DETAILS.yearsInBusiness,
-      subtext: "Continuously operational since 2012",
+      subtext: "Continuously operating since 2012",
     },
     {
-      label: "Families & Couples Served",
+      label: "Families & Couples Hosted",
       value: AGENCY_DETAILS.travelersServed,
-      subtext: "98.4% repeat & referral clientele",
+      subtext: "98.4% repeat & private referral rate",
     },
     {
       label: "Verified Google Rating",
       value: AGENCY_DETAILS.googleRating,
-      subtext: "Based on 340+ verified client reviews",
+      subtext: "Audited across 340+ verified client dossiers",
       hasStars: true,
     },
   ];
 
   const badges = [
     { name: "IATA Accredited", code: AGENCY_DETAILS.iataCode },
-    { name: "TAAI Member", code: "Active 2026" },
+    { name: "TAAI Active Member", code: "Certified 2026" },
     { name: "Ministry of Tourism", code: AGENCY_DETAILS.ministryReg },
-    { name: "Virtuoso Luxury Partner", code: "Direct Amenities" },
+    { name: "GST Registered", code: AGENCY_DETAILS.gstNumber },
+  ];
+
+  const partners = [
+    "Aman Resorts",
+    "Taj Palaces & Safaris",
+    "The Oberoi Group",
+    "Soneva Luxury Sanctums",
+    "Swiss International Air Lines",
+    "Emirates First & Business",
+    "Badrutt's Palace St. Moritz",
+    "The Khyber Himalayan Resort",
   ];
 
   return (
-    <section className="bg-[#05181A] border-y border-teal-soft/30 py-8 px-6 sm:px-8">
+    <section className="bg-[#05181A] border-y border-teal-soft/30 py-10 px-6 sm:px-8 space-y-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
         {/* Metric Counters */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10 w-full lg:w-auto">
           {credentials.map((c, i) => (
             <div key={i} className="flex flex-col border-l border-terracotta/40 pl-4">
               <div className="flex items-center gap-2">
-                <span className="font-display text-3xl sm:text-4xl text-sand font-light tracking-tight">
+                <span className="font-display text-3xl sm:text-4xl text-sand font-light tracking-tight tabular-nums">
                   {c.value}
                 </span>
                 {c.hasStars && (
@@ -72,11 +83,25 @@ export function TrustStrip() {
                 <span className="text-sand/90 block font-medium tracking-wide">
                   {b.name}
                 </span>
-                <span className="text-[9px] text-sand/50 uppercase tracking-widest block">
+                <span className="text-[9px] text-sand/50 uppercase tracking-widest block font-mono">
                   {b.code}
                 </span>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Partner Alignment Marquee */}
+      <div className="max-w-7xl mx-auto pt-6 border-t border-teal-soft/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-sand/50">
+        <span className="uppercase tracking-[0.2em] text-[10px] text-sand/40 flex-shrink-0">
+          Direct Preferred Agreements:
+        </span>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sand/70 text-[11px]">
+          {partners.map((p, idx) => (
+            <span key={idx} className="hover:text-sand transition-colors">
+              {p}
+            </span>
           ))}
         </div>
       </div>

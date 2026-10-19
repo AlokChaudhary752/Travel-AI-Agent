@@ -43,18 +43,17 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
           </span>
         </div>
 
-        {/* Confident Editorial Headline */}
+        {/* Confident Editorial Headline under 8 words */}
         <div className="max-w-4xl space-y-4">
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-light text-sand leading-[1.08] tracking-tight">
-            Travel That Feels Like <br />
+            Journeys Shaped by Time, <br />
             <span className="italic font-normal text-terracotta-soft">
-              Coming Home
-            </span>{" "}
-            to Somewhere You&apos;ve Never Been.
+              Not Itineraries.
+            </span>
           </h1>
 
           <p className="text-sand/80 text-base sm:text-xl font-light leading-relaxed max-w-2xl font-sans">
-            Handcrafted private journeys for discerning families and couples across Kashmir, Switzerland, the Maldives, and Rajasthan. Secluded heritage estates, private aviation, and 24/7 on-trip human care.
+            Private travel across Kashmir, Switzerland, the Maldives, and Rajasthan. Secluded heritage estates, private aviation, and 24/7 on-ground local care.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-1">

@@ -3,6 +3,41 @@
 @tailwind utilities;
 
 :root {
+  /* Editorial Palette: Monastic Pine & Raw Alabaster with Terracotta Accent */
+  --bg-deep: #071F22;
+  --bg-surface: #0B292D;
+  --bg-elevated: #0F353A;
+  --bg-sand: #F6F2EB;
+  --bg-sand-muted: #EBE4D8;
+  
+  --brand-teal: #0D3B3F;
+  --brand-teal-light: #16565C;
+  --brand-terracotta: #C2532A;
+  --brand-terracotta-soft: #DC6B42;
+  
+  --ink-sand: #F6F2EB;
+  --ink-sand-muted: rgba(246, 242, 235, 0.72);
+  --ink-sand-faint: rgba(246, 242, 235, 0.42);
+  --ink-dark: #121A1B;
+  
+  --border-editorial: rgba(246, 242, 235, 0.12);
+  --border-editorial-subtle: rgba(246, 242, 235, 0.06);
+  --border-terracotta: rgba(194, 83, 42, 0.35);
+
+  /* Fluid Typography Scale (WCAG compliant) */
+  --font-fluid-hero: clamp(2.75rem, 5.5vw + 1rem, 5.75rem);
+  --font-fluid-title: clamp(1.85rem, 3vw + 0.75rem, 3.25rem);
+  --font-fluid-subtitle: clamp(1.15rem, 1.2vw + 0.6rem, 1.65rem);
+  --font-fluid-body: clamp(0.925rem, 0.35vw + 0.8rem, 1.05rem);
+  --font-fluid-caption: clamp(0.72rem, 0.15vw + 0.65rem, 0.82rem);
+
+  /* Motion Curves: Calm, Physical, Unhurried */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-swift: 240ms;
+  --duration-medium: 420ms;
+  --duration-deliberate: 700ms;
+
+  /* Legacy dashboard variables preserved for backend compatibility */
   --bg: #07090D;
   --surface: #0E1218;
   --surface-elevated: #141A22;
@@ -17,21 +52,6 @@
   --muted-dark: #4B515D;
 }
 
-.light {
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --surface-elevated: #F0EDE5;
-  --glass: rgba(0, 0, 0, 0.03);
-  --glass-border: rgba(201, 162, 75, 0.25);
-  --gold: #B38938;
-  --gold-soft: #8C6F2D;
-  --gold-dark: #5F4B1E;
-  --gold-glow: rgba(179, 137, 56, 0.25);
-  --ivory: #16181D;
-  --muted: #646872;
-  --muted-dark: #9A9EA6;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -44,26 +64,24 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--ivory);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-deep);
+  color: var(--ink-sand);
+  font-family: var(--font-plus-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   min-height: 100vh;
-  selection-background-color: var(--gold);
-  selection-color: var(--bg);
 }
 
 ::selection {
-  background: #C9A24B;
-  color: #07090D;
+  background: var(--brand-terracotta);
+  color: #FFFFFF;
 }
 
-/* Tabular numerals for prices */
+/* Tabular numerals for prices and dates */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle luxury film grain overlay */
+/* Paper Grain Texture (Human, tactile, zero gimmicks) */
 .film-grain {
   position: fixed;
   top: 0;
@@ -72,57 +90,54 @@ body {
   height: 100vh;
   pointer-events: none;
   z-index: 99;
-  opacity: 0.028;
+  opacity: 0.024;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Luxury Glassmorphism Utilities */
-.glass-panel {
-  background: var(--glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
+/* Editorial hairline dividers */
+.editorial-border {
+  border: 1px solid var(--border-editorial);
 }
 
-.glass-panel-elevated {
-  background: rgba(14, 18, 24, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(201, 162, 75, 0.22);
+.editorial-border-b {
+  border-bottom: 1px solid var(--border-editorial);
 }
 
-/* 1px Gold hairline border */
-.gold-hairline {
-  border: 1px solid rgba(201, 162, 75, 0.22);
+.editorial-border-t {
+  border-top: 1px solid var(--border-editorial);
 }
 
-.gold-hairline-glow {
-  border: 1px solid rgba(201, 162, 75, 0.35);
-  box-shadow: 0 0 20px -3px rgba(201, 162, 75, 0.2);
+/* Art-directed image color grading overlay */
+.photo-editorial-grade {
+  position: relative;
 }
-
-/* Custom luxury scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #07090D;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(201, 162, 75, 0.3);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(201, 162, 75, 0.6);
+.photo-editorial-grade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 31, 34, 0.08) 0%, rgba(7, 31, 34, 0.65) 100%);
+  pointer-events: none;
 }
 
 /* Focus outline for WCAG 2.2 AA accessibility */
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--brand-terracotta);
   outline-offset: 3px;
+}
+
+/* Minimalist luxury scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #051315;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(194, 83, 42, 0.35);
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(194, 83, 42, 0.7);
 }
 
 @media (prefers-reduced-motion: reduce) {
