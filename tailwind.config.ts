@@ -11,6 +11,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        teal: {
+          DEFAULT: "#0D3B3F",
+          dark: "#072427",
+          soft: "#1A565C",
+          surface: "#0A2D30",
+        },
+        sand: {
+          DEFAULT: "#F4EFE6",
+          light: "#FAF7F2",
+          surface: "#ECE5D8",
+          dark: "#DDD3C1",
+        },
+        terracotta: {
+          DEFAULT: "#C85A32",
+          soft: "#DF764F",
+          dark: "#9E3E1C",
+        },
         bg: "var(--bg)",
         surface: "var(--surface)",
         "surface-elevated": "var(--surface-elevated)",
