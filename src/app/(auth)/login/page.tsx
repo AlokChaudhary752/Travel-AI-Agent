@@ -262,8 +262,8 @@ export default function LoginPage() {
       {/* Footer Link */}
       <div className="mt-6 text-center text-xs text-muted">
         Don&apos;t hold a membership?{" "}
-        <Link href="/register" className="text-gold hover:underline font-mono">
-          Apply for Access
+        <Link href="/signup" className="text-gold hover:underline font-mono">
+          Sign Up for Access
         </Link>
       </div>
     </div>

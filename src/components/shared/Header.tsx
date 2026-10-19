@@ -81,7 +81,7 @@ export function Header() {
             <span>{currency.split(" ")[0]}</span>
           </button>
 
-          {/* AI Concierge Link (Preserves the Phase 3 backend) */}
+          {/* AI Concierge Link */}
           <Link
             href="/dashboard/concierge"
             className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#092A2D] border border-teal-soft/40 hover:border-terracotta/50 text-sand/80 hover:text-sand text-xs font-mono transition-colors"
@@ -91,16 +91,21 @@ export function Header() {
             <span>AI Concierge</span>
           </Link>
 
-          {/* WhatsApp Direct Action */}
-          <a
-            href={AGENCY_DETAILS.whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] text-xs font-mono font-medium hover:bg-[#25D366]/30 transition-all"
+          {/* Sign In Link */}
+          <Link
+            href="/login"
+            className="text-xs uppercase font-mono tracking-widest text-sand/80 hover:text-sand px-3 py-1.5 transition-colors"
           >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>WhatsApp</span>
-          </a>
+            Sign In
+          </Link>
+
+          {/* Sign Up Button */}
+          <Link
+            href="/signup"
+            className="py-1.5 px-3.5 border border-terracotta/60 hover:border-terracotta text-sand hover:text-white font-mono text-xs uppercase tracking-wider transition-all bg-terracotta/15 hover:bg-terracotta/25"
+          >
+            Sign Up
+          </Link>
 
           {/* Main "Plan My Trip" Button */}
           <a
@@ -146,6 +151,23 @@ export function Header() {
             >
               Plan My Trip
             </a>
+
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-2.5 bg-[#0A2D30] border border-teal-soft/40 text-sand text-xs font-mono text-center uppercase tracking-wider"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-2.5 bg-terracotta/20 border border-terracotta/60 text-sand text-xs font-mono text-center uppercase tracking-wider"
+              >
+                Sign Up
+              </Link>
+            </div>
 
             <div className="flex gap-2">
               <a

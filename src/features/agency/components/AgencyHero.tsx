@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Compass, ShieldCheck, Sparkles, MapPin, Calendar, Users, IndianRupee } from "lucide-react";
 import { AGENCY_DETAILS } from "../data/agencyData";
 
@@ -55,6 +56,23 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
           <p className="text-sand/80 text-base sm:text-xl font-light leading-relaxed max-w-2xl font-sans">
             Handcrafted private journeys for discerning families and couples across Kashmir, Switzerland, the Maldives, and Rajasthan. Secluded heritage estates, private aviation, and 24/7 on-trip human care.
           </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-sand/15 hover:bg-sand/25 border border-sand/30 text-sand text-xs font-mono tracking-wider uppercase transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-terracotta" />
+              <span>Sign Up for Membership</span>
+            </Link>
+            <Link
+              href="/dashboard/concierge"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#092A2D] hover:bg-[#092A2D]/80 border border-teal-soft/40 text-sand/80 text-xs font-mono tracking-wider uppercase transition-all"
+            >
+              <span>Instant AI Concierge</span>
+              <ArrowRight className="w-3.5 h-3.5 text-terracotta" />
+            </Link>
+          </div>
         </div>
 
         {/* Compact Editorial Search & Enquiry Bar */}

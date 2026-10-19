@@ -44,8 +44,8 @@ const config: Config = {
         "muted-dark": "var(--muted-dark)",
       },
       fontFamily: {
-        display: ["var(--font-cormorant)", "Cormorant Garamond", "Playfair Display", "serif"],
-        sans: ["var(--font-inter)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        display: ["var(--font-playfair)", "Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-plus-jakarta)", "Plus Jakarta Sans", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       boxShadow: {
         "gold-glow": "0 0 25px -5px rgba(201, 162, 75, 0.35)",
