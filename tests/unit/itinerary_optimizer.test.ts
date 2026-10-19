@@ -51,7 +51,7 @@ describe("Voyara Itinerary & Route Optimizer Suite", () => {
       {
         id: "s3",
         title: "Chantarella Ski Station (Close West)",
-        category: "activity",
+        category: "leisure",
         startTime: "13:00",
         endTime: "15:00",
         durationMinutes: 120,
@@ -92,7 +92,7 @@ describe("Voyara Itinerary & Route Optimizer Suite", () => {
       {
         id: "a2",
         title: "Corvatsch Glacier Tour",
-        category: "activity",
+        category: "leisure",
         startTime: "10:00",
         endTime: "12:30",
         durationMinutes: 150,
@@ -144,10 +144,12 @@ describe("Voyara Itinerary & Route Optimizer Suite", () => {
     const testItinerary: Itinerary = {
       id: "itin-test-1",
       title: "Voyara St. Moritz Winter Sanctum",
-      clientName: "Lord Julian Vance",
       destination: "St. Moritz, Switzerland",
-      currency: "CHF",
-      totalBudget: 45000,
+      startDate: "2026-12-10",
+      endDate: "2026-12-14",
+      leadGuest: "Lord Julian Vance",
+      partySize: 2,
+      status: "confirmed",
       days: [
         {
           dayNumber: 1,
