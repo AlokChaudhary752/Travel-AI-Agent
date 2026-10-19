@@ -1,83 +1,60 @@
 "use client";
 
-import React from "react";
-import { CreditCard, DollarSign, TrendingUp, Plus, ArrowUpRight } from "lucide-react";
+import React, { useState } from "react";
+import { CreditCard, Plus, DollarSign, Scale, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BudgetOverviewCards } from "@/features/expenses/components/BudgetOverviewCards";
+import { SettleUpMatrix } from "@/features/expenses/components/SettleUpMatrix";
+import { ExpenseTable } from "@/features/expenses/components/ExpenseTable";
+import { LogExpenseModal } from "@/features/expenses/components/LogExpenseModal";
 
 export default function ExpensesPage() {
-  const expenses = [
-    { title: "Swiss Private Jet Charter (BOM ➔ ZRH)", category: "Aviation", amount: "$18,500", paidBy: "Lord Vance", date: "Oct 12" },
-    { title: "Badrutt's Palace Suite Advance", category: "Sanctuary", amount: "$9,250", paidBy: "Lord Vance", date: "Oct 14" },
-    { title: "Alpine Helicopter Glacier Transfer", category: "Transit", amount: "$3,400", paidBy: "Ananya Mehta", date: "Oct 15" },
-  ];
+  const [logModalOpen, setLogModalOpen] = useState(false);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-white/10 gap-4">
         <div>
-          <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-gold-soft block mb-1">
-            Financial Ledger
-          </span>
-          <h1 className="font-display text-3xl font-light text-ivory">
-            Expenses & Split Ledger
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none bg-gold/15 border border-gold/30 text-[10px] font-mono uppercase text-gold-soft mb-2">
+            <CreditCard className="w-3 h-3 text-gold" />
+            Signature Feature 03 • Autonomous Vault Ledger
+          </div>
+          <h1 className="font-display text-3xl md:text-4xl font-light text-ivory">
+            Expenses, Multi-Currency Ledger & Settle-Up
           </h1>
-          <p className="text-muted text-xs font-light mt-1">
-            Multi-currency tracking, automatic party settling, and live burn rate analytics.
+          <p className="text-muted text-xs font-light mt-1.5 max-w-2xl leading-relaxed">
+            Multi-currency ledger across INR, CHF, USD, and EUR with live burn rate telemetry,
+            itemized audit trails, and O(N log N) mathematical debt minimization for seamless group settlement.
           </p>
         </div>
 
-        <Button variant="primary" size="md">
+        <Button
+          type="button"
+          variant="primary"
+          size="md"
+          onClick={() => setLogModalOpen(true)}
+          className="font-mono text-xs self-start sm:self-auto"
+        >
           <Plus className="w-4 h-4 mr-1.5" />
-          Log Expenditure
+          Record Disbursement
         </Button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 bg-surface-elevated border border-white/10 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-widest block">Total Budget Allocation</span>
-          <div className="font-display text-3xl font-light text-ivory tabular-nums">$50,000</div>
-          <span className="text-[10px] text-gold-soft font-mono">Bespoke Winter Reserve</span>
-        </div>
+      {/* Budget Summary Cards & Multi-Currency Switcher */}
+      <BudgetOverviewCards />
 
-        <div className="p-5 bg-surface-elevated border border-gold/30 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-widest block">Disbursed to Date</span>
-          <div className="font-display text-3xl font-light text-gold tabular-nums">$31,150</div>
-          <span className="text-[10px] text-emerald-400 font-mono">62% of Allocation</span>
-        </div>
+      {/* Settle Up Matrix */}
+      <SettleUpMatrix />
 
-        <div className="p-5 bg-surface-elevated border border-white/10 space-y-1">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-widest block">Remaining Balance</span>
-          <div className="font-display text-3xl font-light text-ivory tabular-nums">$18,850</div>
-          <span className="text-[10px] text-muted font-mono">Guaranteed Available</span>
-        </div>
-      </div>
+      {/* Itemized Transactions Table */}
+      <ExpenseTable onOpenLogModal={() => setLogModalOpen(true)} />
 
-      {/* Transactions List */}
-      <div className="p-6 bg-surface-elevated border border-white/10 space-y-4">
-        <h3 className="text-xs uppercase font-mono tracking-widest text-gold-soft">
-          Recent Vaulted Disbursements
-        </h3>
-
-        <div className="space-y-2 text-xs">
-          {expenses.map((exp, idx) => (
-            <div
-              key={idx}
-              className="p-3.5 bg-surface border border-white/5 flex items-center justify-between hover:border-gold/30 transition-colors"
-            >
-              <div>
-                <span className="text-ivory font-medium block">{exp.title}</span>
-                <span className="text-[10px] text-muted font-mono">
-                  {exp.category} • Paid by {exp.paidBy} on {exp.date}
-                </span>
-              </div>
-              <span className="font-mono text-sm font-bold text-gold tabular-nums">
-                {exp.amount}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Modal */}
+      <LogExpenseModal
+        isOpen={logModalOpen}
+        onClose={() => setLogModalOpen(false)}
+      />
     </div>
   );
 }

@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Search, Bell, Globe, Menu, ShieldCheck, CheckCircle2, User } from "lucide-react";
 
+import { useRadarStore } from "@/features/radar/store/useRadarStore";
+
 interface TopbarProps {
   onOpenCommand: () => void;
   onToggleMobileMenu: () => void;
@@ -12,22 +14,42 @@ interface TopbarProps {
 export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
   const [currency, setCurrency] = useState("USD");
   const [showNotifications, setShowNotifications] = useState(false);
+  const { activeSector, priceAlerts } = useRadarStore();
+
+  const isDisrupted = activeSector.status === "delayed" || activeSector.status === "diverted";
 
   const notifications = [
-    {
-      id: "notif-1",
-      title: "Price Drop Detected",
-      desc: "Swiss Business Class (BOM ➔ ZRH) dropped by $380.",
-      time: "12m ago",
-      type: "price",
-    },
-    {
-      id: "notif-2",
-      title: "Disruption Radar Clear",
-      desc: "Airspace conditions for Zurich and Engadin Valley are optimal.",
-      time: "1h ago",
-      type: "disruption",
-    },
+    ...(isDisrupted
+      ? [
+          {
+            id: "notif-disruption",
+            title: `Sector ${activeSector.flightNumber} Advisory`,
+            desc: `Delay of ${activeSector.telemetry.estimatedArrivalDelayMin}m detected. Lie-flat contingency suite holds active.`,
+            time: "Live now",
+            type: "disruption" as const,
+            href: "/dashboard/radar",
+          },
+        ]
+      : [
+          {
+            id: "notif-radar-clear",
+            title: `Sector ${activeSector.flightNumber} On Schedule`,
+            desc: "Airspace conditions for Zurich and Engadin Valley are optimal.",
+            time: "Active",
+            type: "disruption" as const,
+            href: "/dashboard/radar",
+          },
+        ]),
+    ...priceAlerts.slice(0, 2).map((alert) => ({
+      id: alert.id,
+      title: `${alert.airline} Fare Update`,
+      desc: alert.priceDropINR > 0
+        ? `${alert.route} dropped by ₹${alert.priceDropINR.toLocaleString("en-IN")}.`
+        : `Monitoring ${alert.route} (${alert.cabin}) under ₹${alert.targetAlertPriceINR.toLocaleString("en-IN")}.`,
+      time: alert.alertDate,
+      type: "price" as const,
+      href: "/dashboard/radar",
+    })),
   ];
 
   return (
@@ -102,16 +124,18 @@ export function Topbar({ onOpenCommand, onToggleMobileMenu }: TopbarProps) {
               </div>
               <div className="space-y-2.5">
                 {notifications.map((n) => (
-                  <div
+                  <Link
                     key={n.id}
-                    className="p-2.5 bg-surface border border-white/5 space-y-1 text-xs"
+                    href={n.href}
+                    onClick={() => setShowNotifications(false)}
+                    className="p-2.5 bg-surface border border-white/5 hover:border-gold/30 block space-y-1 text-xs transition-colors"
                   >
                     <div className="flex items-center justify-between font-semibold text-ivory">
-                      <span>{n.title}</span>
+                      <span className="hover:text-gold transition-colors">{n.title}</span>
                       <span className="text-[9px] text-muted font-mono">{n.time}</span>
                     </div>
                     <p className="text-[11px] text-muted leading-snug">{n.desc}</p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
