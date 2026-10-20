@@ -18,14 +18,14 @@ export function CustomCursor() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
+      setIsVisible((prev) => (!prev ? true : prev));
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       dotX.set(e.clientX);
       dotY.set(e.clientY);
 
       const target = e.target as HTMLElement | null;
-      if (
+      const isInteractive = !!(
         target &&
         (target.tagName === "BUTTON" ||
           target.tagName === "A" ||
@@ -33,26 +33,24 @@ export function CustomCursor() {
           target.closest("a") ||
           target.getAttribute("role") === "button" ||
           target.dataset.cursor === "pointer")
-      ) {
-        setIsPointer(true);
-      } else {
-        setIsPointer(false);
-      }
+      );
+
+      setIsPointer((prev) => (prev !== isInteractive ? isInteractive : prev));
     };
 
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+    document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [isVisible, cursorX, cursorY, dotX, dotY]);
+  }, [cursorX, cursorY, dotX, dotY]);
 
   if (!isVisible) return null;
 
