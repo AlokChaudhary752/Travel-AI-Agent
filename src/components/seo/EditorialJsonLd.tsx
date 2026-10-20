@@ -1,5 +1,11 @@
 import React from "react";
-import { AGENCY_DETAILS, FAQ_ITEMS, CURATED_PACKAGES } from "@/features/agency/data/agencyData";
+import {
+  AGENCY_DETAILS,
+  FAQ_ITEMS,
+  CURATED_PACKAGES,
+  FAQItem,
+  PackageItem,
+} from "@/features/agency/data/agencyData";
 
 export function EditorialJsonLd() {
   const travelAgencySchema = {
@@ -72,7 +78,7 @@ export function EditorialJsonLd() {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_ITEMS.map((faq) => ({
+    mainEntity: FAQ_ITEMS.map((faq: FAQItem) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {

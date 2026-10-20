@@ -407,3 +407,6 @@ export const FAQS: FAQItem[] = [
     category: "Booking",
   },
 ];
+
+export const SAMPLE_ITINERARY_DAYS = FLAGSHIP_ITINERARY;
+export const FAQ_ITEMS = FAQS;

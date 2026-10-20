@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Check, Clock, MapPin, MessageCircle, FileText } from "lucide-react";
 import { CURATED_PACKAGES, PackageItem, AGENCY_DETAILS } from "../data/agencyData";
 import { PackageDetailModal } from "./PackageDetailModal";
@@ -139,14 +140,25 @@ export function CuratedPackages({ onOpenEnquiry }: CuratedPackagesProps) {
                       </span>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedPkgForDossier(pkg)}
-                      className="text-[11px] font-mono text-terracotta-soft hover:underline flex items-center gap-1"
-                    >
-                      <FileText className="w-3.5 h-3.5" />
-                      <span>Full Dossier</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedPkgForDossier(pkg)}
+                        className="text-[11px] font-mono text-terracotta-soft hover:underline flex items-center gap-1"
+                        title="Quick View Dossier"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Quick View</span>
+                      </button>
+                      <span className="text-sand/30">•</span>
+                      <Link
+                        href={`/packages/${pkg.id}`}
+                        className="text-[11px] font-mono text-sand/70 hover:text-sand hover:underline"
+                        title="Dedicated Dossier Page"
+                      >
+                        Page →
+                      </Link>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">

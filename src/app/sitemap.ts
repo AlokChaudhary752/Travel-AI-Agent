@@ -1,7 +1,15 @@
 import type { MetadataRoute } from "next";
+import { CURATED_PACKAGES } from "@/features/agency/data/agencyData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://voyara.luxury";
+
+  const packageRoutes: MetadataRoute.Sitemap = CURATED_PACKAGES.map((pkg) => ({
+    url: `${baseUrl}/packages/${pkg.id}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
 
   return [
     {
@@ -9,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/signup`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/onboarding`,
@@ -22,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...packageRoutes,
     {
       url: `${baseUrl}/privacy`,
       lastModified: new Date(),
