@@ -1,7 +1,7 @@
 import React from "react";
 import {
   AGENCY_DETAILS,
-  FAQ_ITEMS,
+  FAQS,
   CURATED_PACKAGES,
   FAQItem,
   PackageItem,
@@ -78,7 +78,7 @@ export function EditorialJsonLd() {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_ITEMS.map((faq: FAQItem) => ({
+    mainEntity: FAQS.map((faq: FAQItem) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
