@@ -81,32 +81,6 @@ export function Header() {
             <span>{currency.split(" ")[0]}</span>
           </button>
 
-          {/* Admin Dashboard Link */}
-          <Link
-            href="/dashboard"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#092A2D] border border-teal-soft/40 hover:border-terracotta/50 text-sand/80 hover:text-sand text-xs font-mono transition-colors"
-            title="Access the Enterprise Operations & Revenue Dashboard"
-          >
-            <Sparkles className="w-3 h-3 text-terracotta" />
-            <span>Admin Dashboard</span>
-          </Link>
-
-          {/* Sign In Link */}
-          <Link
-            href="/login"
-            className="text-xs uppercase font-mono tracking-widest text-sand/80 hover:text-sand px-3 py-1.5 transition-colors"
-          >
-            Sign In
-          </Link>
-
-          {/* Sign Up Button */}
-          <Link
-            href="/signup"
-            className="py-1.5 px-3.5 border border-terracotta/60 hover:border-terracotta text-sand hover:text-white font-mono text-xs uppercase tracking-wider transition-all bg-terracotta/15 hover:bg-terracotta/25"
-          >
-            Sign Up
-          </Link>
-
           {/* Main "Plan My Trip" Button */}
           <a
             href="#contact"
@@ -152,41 +126,16 @@ export function Header() {
               Plan My Trip
             </a>
 
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-2.5 bg-[#0A2D30] border border-teal-soft/40 text-sand text-xs font-mono text-center uppercase tracking-wider"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/signup"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-2.5 bg-terracotta/20 border border-terracotta/60 text-sand text-xs font-mono text-center uppercase tracking-wider"
-              >
-                Sign Up
-              </Link>
-            </div>
-
-            <div className="flex gap-2">
+            <div className="pt-1">
               <a
                 href={AGENCY_DETAILS.whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-2.5 bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 text-xs font-mono text-center flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 text-xs font-mono text-center flex items-center justify-center gap-1.5"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>WhatsApp</span>
+                <span>Chat on WhatsApp</span>
               </a>
-
-              <Link
-                href="/dashboard"
-                className="flex-1 py-2.5 bg-[#061D1F] border border-teal-soft/40 text-sand text-xs font-mono text-center flex items-center justify-center gap-1.5"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-terracotta" />
-                <span>Admin Dashboard</span>
-              </Link>
             </div>
           </div>
         </div>

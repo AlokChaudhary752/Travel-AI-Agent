@@ -119,14 +119,14 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/dashboard" className="text-terracotta hover:underline font-mono">
-                  Operations & Revenue Dashboard →
-                </Link>
+                <a href="#why-us" className="hover:text-sand transition-colors">
+                  Why Travel With Voyara
+                </a>
               </li>
               <li>
-                <Link href="/dashboard/concierge" className="hover:text-sand transition-colors font-mono">
-                  Autonomous AI Concierge
-                </Link>
+                <a href="#faq" className="hover:text-sand transition-colors font-mono">
+                  Travel Advisory & FAQs
+                </a>
               </li>
             </ul>
           </div>

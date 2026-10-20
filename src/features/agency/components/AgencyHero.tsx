@@ -87,20 +87,21 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-1">
-            <Link
-              href="/signup"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-sand/15 hover:bg-sand/25 border border-sand/30 text-sand text-xs font-mono tracking-wider uppercase transition-all"
+            <a
+              href="#packages"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-terracotta hover:bg-terracotta-soft text-white text-xs font-mono tracking-wider uppercase transition-all shadow-lg"
+            >
+              <span>Explore Curated Journeys</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+            <button
+              type="button"
+              onClick={() => onOpenEnquiry()}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#092A2D] hover:bg-[#092A2D]/80 border border-teal-soft/40 text-sand text-xs font-mono tracking-wider uppercase transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-terracotta" />
-              <span>Sign Up for Membership</span>
-            </Link>
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#092A2D] hover:bg-[#092A2D]/80 border border-teal-soft/40 text-sand/80 text-xs font-mono tracking-wider uppercase transition-all"
-            >
-              <span>Operations & Admin Dashboard</span>
-              <ArrowRight className="w-3.5 h-3.5 text-terracotta" />
-            </Link>
+              <span>Bespoke Consultation</span>
+            </button>
           </div>
         </div>
 
