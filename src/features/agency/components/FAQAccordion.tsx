@@ -1,10 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Minus, HelpCircle } from "lucide-react";
+import { Plus, Minus, ShieldCheck, PhoneCall, ArrowRight, FileText } from "lucide-react";
 import { FAQS } from "../data/agencyData";
 
-export function FAQAccordion() {
+interface FAQAccordionProps {
+  onOpenRefundModal?: () => void;
+  onOpenCallbackModal?: () => void;
+}
+
+export function FAQAccordion({ onOpenRefundModal, onOpenCallbackModal }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (idx: number) => {
@@ -58,6 +63,42 @@ export function FAQAccordion() {
               </div>
             );
           })}
+        </div>
+
+        {/* Phase 6 Trust & Refund Conversion Banner */}
+        <div className="p-8 bg-[#05181A] border border-teal-soft/40 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="space-y-1.5 text-center sm:text-left">
+            <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Full Consumer Restitution Guarantee</span>
+            </div>
+            <h3 className="font-display text-2xl text-sand font-light">
+              Clear Refund & Cancellation Summary
+            </h3>
+            <p className="text-sand/70 text-xs font-light max-w-lg leading-relaxed">
+              100% refund on land arrangements 45+ days prior, zero-penalty credit rollover, and escrow account protections on every rupee deposited.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={onOpenRefundModal}
+              className="w-full sm:w-auto py-2.5 px-4 bg-[#092A2D] hover:bg-[#092A2D]/80 border border-teal-soft/50 text-sand text-xs font-mono uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+            >
+              <FileText className="w-3.5 h-3.5 text-terracotta" />
+              <span>View Policy</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onOpenCallbackModal}
+              className="w-full sm:w-auto py-2.5 px-4 bg-terracotta hover:bg-terracotta-soft text-white text-xs font-mono uppercase tracking-wider font-semibold transition-colors flex items-center justify-center gap-1.5"
+            >
+              <PhoneCall className="w-3.5 h-3.5" />
+              <span>Request Callback</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>

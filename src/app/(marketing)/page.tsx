@@ -13,11 +13,15 @@ import { EditorialJournal } from "@/features/agency/components/EditorialJournal"
 import { FAQAccordion } from "@/features/agency/components/FAQAccordion";
 import { FinalEnquiryBand } from "@/features/agency/components/FinalEnquiryBand";
 import { EnquiryModal } from "@/features/agency/components/EnquiryModal";
+import { RefundCancellationModal } from "@/features/agency/components/RefundCancellationModal";
+import { ExpertCallbackModal } from "@/features/agency/components/ExpertCallbackModal";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import { EditorialJsonLd } from "@/components/seo/EditorialJsonLd";
 
 export default function AgencyHomePage() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [refundModalOpen, setRefundModalOpen] = useState(false);
+  const [callbackModalOpen, setCallbackModalOpen] = useState(false);
   const [selectedDest, setSelectedDest] = useState<string | undefined>(undefined);
   const [selectedPkg, setSelectedPkg] = useState<string | undefined>(undefined);
 
@@ -63,13 +67,16 @@ export default function AgencyHomePage() {
       {/* 9. Editorial Field Journal */}
       <EditorialJournal />
 
-      {/* 10. Travel Guides & FAQ Accordion */}
-      <FAQAccordion />
+      {/* 10. Travel Guides & FAQ Accordion with Refund Summary */}
+      <FAQAccordion
+        onOpenRefundModal={() => setRefundModalOpen(true)}
+        onOpenCallbackModal={() => setCallbackModalOpen(true)}
+      />
 
-      {/* 10. Final Enquiry Band with 4-Field Form & WhatsApp CTA */}
-      <FinalEnquiryBand />
+      {/* 11. Final Enquiry Band with 4-Field Form & Callback Link */}
+      <FinalEnquiryBand onOpenCallbackModal={() => setCallbackModalOpen(true)} />
 
-      {/* 11. Global Interactive Consultation Modal */}
+      {/* 12. Global Interactive Consultation Modal */}
       <EnquiryModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -77,7 +84,20 @@ export default function AgencyHomePage() {
         preselectedPackageTitle={selectedPkg}
       />
 
-      {/* 12. Floating WhatsApp Concierge Pill */}
+      {/* 13. Transparent Refund & Cancellation Modal */}
+      <RefundCancellationModal
+        isOpen={refundModalOpen}
+        onClose={() => setRefundModalOpen(false)}
+      />
+
+      {/* 14. "Plan With An Expert" Callback Modal */}
+      <ExpertCallbackModal
+        isOpen={callbackModalOpen}
+        onClose={() => setCallbackModalOpen(false)}
+        defaultDestination={selectedDest}
+      />
+
+      {/* 15. Floating WhatsApp Concierge Pill */}
       <WhatsAppButton />
     </div>
   );

@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { MessageCircle, Send, CheckCircle2, Phone, ShieldCheck } from "lucide-react";
 import { AGENCY_DETAILS } from "../data/agencyData";
 
-export function FinalEnquiryBand() {
+interface FinalEnquiryBandProps {
+  onOpenCallbackModal?: () => void;
+}
+
+export function FinalEnquiryBand({ onOpenCallbackModal }: FinalEnquiryBandProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [destination, setDestination] = useState("Kashmir & Gulmarg");
@@ -179,9 +183,21 @@ export function FinalEnquiryBand() {
                 </button>
               </div>
 
-              <div className="pt-3 border-t border-teal-soft/20 flex items-center gap-2 text-[10px] text-sand/60 font-mono">
-                <ShieldCheck className="w-3.5 h-3.5 text-terracotta" />
-                <span>Your contact details are strictly confidential and never shared with third parties.</span>
+              <div className="pt-3 border-t border-teal-soft/20 flex flex-wrap items-center justify-between gap-2 text-[10px] text-sand/60 font-mono">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-terracotta" />
+                  <span>Your contact details are strictly confidential and encrypted.</span>
+                </span>
+                {onOpenCallbackModal && (
+                  <button
+                    type="button"
+                    onClick={onOpenCallbackModal}
+                    className="text-terracotta-soft hover:underline flex items-center gap-1 font-semibold"
+                  >
+                    <Phone className="w-3 h-3" />
+                    <span>Prefer a call? Request 15-min briefing →</span>
+                  </button>
+                )}
               </div>
             </form>
           ) : (
