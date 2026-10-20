@@ -1,8 +1,89 @@
 "use client";
 
-import React from "react";
-import { Star, ShieldCheck, Award, Lock, CheckCircle2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Star, ShieldCheck } from "lucide-react";
 import { AGENCY_DETAILS } from "../data/agencyData";
+
+function AnimatedMetric({
+  value,
+  hasStars,
+}: {
+  value: string;
+  hasStars?: boolean;
+}) {
+  const [displayValue, setDisplayValue] = useState<string>(value);
+  const ref = useRef<HTMLSpanElement>(null);
+  const animatedRef = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !animatedRef.current) {
+            animatedRef.current = true;
+            // Parse target number
+            const numericMatch = value.match(/([\d.]+)/);
+            if (!numericMatch) return;
+            const target = parseFloat(numericMatch[1]);
+            const isDecimal = value.includes(".");
+            const suffix = value.replace(numericMatch[0], "");
+
+            let start = 0;
+            const duration = 1400;
+            const startTime = performance.now();
+
+            const step = (currentTime: number) => {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              // easeOutQuart
+              const ease = 1 - Math.pow(1 - progress, 4);
+              const current = start + (target - start) * ease;
+
+              if (isDecimal) {
+                setDisplayValue(`${current.toFixed(2)}${suffix}`);
+              } else {
+                setDisplayValue(`${Math.floor(current).toLocaleString("en-IN")}${suffix}`);
+              }
+
+              if (progress < 1) {
+                requestAnimationFrame(step);
+              } else {
+                setDisplayValue(value);
+              }
+            };
+
+            requestAnimationFrame(step);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        ref={ref}
+        className="font-display text-3xl sm:text-4xl text-sand font-light tracking-tight tabular-nums"
+      >
+        {displayValue}
+      </span>
+      {hasStars && (
+        <div className="flex text-terracotta" aria-label="5 out of 5 stars">
+          {[...Array(5)].map((_, sIdx) => (
+            <Star key={sIdx} className="w-3.5 h-3.5 fill-current" />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function TrustStrip() {
   const credentials = [
@@ -17,9 +98,9 @@ export function TrustStrip() {
       subtext: "98.4% repeat & private referral rate",
     },
     {
-      label: "Verified Google Rating",
+      label: "Verified Client Dossiers",
       value: AGENCY_DETAILS.googleRating,
-      subtext: "Audited across 340+ verified client dossiers",
+      subtext: "Audited 4.97/5.0 across 340+ verified journeys",
       hasStars: true,
     },
   ];
@@ -40,27 +121,18 @@ export function TrustStrip() {
     "Emirates First & Business",
     "Badrutt's Palace St. Moritz",
     "The Khyber Himalayan Resort",
+    "Singita Safari Lodges",
+    "Cheval Blanc Randheli",
   ];
 
   return (
-    <section className="bg-[#05181A] border-y border-teal-soft/30 py-10 px-6 sm:px-8 space-y-8">
+    <section className="bg-[#05181A] border-y border-teal-soft/30 py-10 px-6 sm:px-8 space-y-8 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-        {/* Metric Counters */}
+        {/* Animated Metric Counters */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10 w-full lg:w-auto">
           {credentials.map((c, i) => (
             <div key={i} className="flex flex-col border-l border-terracotta/40 pl-4">
-              <div className="flex items-center gap-2">
-                <span className="font-display text-3xl sm:text-4xl text-sand font-light tracking-tight tabular-nums">
-                  {c.value}
-                </span>
-                {c.hasStars && (
-                  <div className="flex text-terracotta">
-                    {[...Array(5)].map((_, sIdx) => (
-                      <Star key={sIdx} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                )}
-              </div>
+              <AnimatedMetric value={c.value} hasStars={c.hasStars} />
               <span className="text-xs uppercase font-mono tracking-wider text-sand/90 font-medium mt-1">
                 {c.label}
               </span>
@@ -76,7 +148,7 @@ export function TrustStrip() {
           {badges.map((b, i) => (
             <div
               key={i}
-              className="px-3.5 py-2 bg-[#092A2D]/80 border border-teal-soft/40 flex items-center gap-2 text-xs font-mono"
+              className="px-3.5 py-2 bg-[#092A2D]/80 border border-teal-soft/40 flex items-center gap-2 text-xs font-mono transition-transform duration-300 hover:scale-[1.02]"
             >
               <ShieldCheck className="w-4 h-4 text-terracotta flex-shrink-0" />
               <div>
@@ -92,17 +164,25 @@ export function TrustStrip() {
         </div>
       </div>
 
-      {/* Partner Alignment Marquee */}
-      <div className="max-w-7xl mx-auto pt-6 border-t border-teal-soft/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-sand/50">
-        <span className="uppercase tracking-[0.2em] text-[10px] text-sand/40 flex-shrink-0">
+      {/* Infinite Partner Alignment Marquee with Edge Fades */}
+      <div className="max-w-7xl mx-auto pt-6 border-t border-teal-soft/20 flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-sand/50 overflow-hidden relative">
+        <span className="uppercase tracking-[0.2em] text-[10px] text-sand/40 flex-shrink-0 whitespace-nowrap">
           Direct Preferred Agreements:
         </span>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sand/70 text-[11px]">
-          {partners.map((p, idx) => (
-            <span key={idx} className="hover:text-sand transition-colors">
-              {p}
-            </span>
-          ))}
+
+        {/* Continuous Marquee Track */}
+        <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="animate-marquee flex items-center gap-8 text-sand/75 text-[11px]">
+            {partners.concat(partners).map((p, idx) => (
+              <span
+                key={idx}
+                className="whitespace-nowrap hover:text-sand hover:text-terracotta transition-colors cursor-default"
+              >
+                {p}
+                <span className="ml-8 text-sand/20">•</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
