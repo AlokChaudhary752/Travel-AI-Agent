@@ -81,14 +81,14 @@ export function Header() {
             <span>{currency.split(" ")[0]}</span>
           </button>
 
-          {/* AI Concierge Link */}
+          {/* Admin Dashboard Link */}
           <Link
-            href="/dashboard/concierge"
-            className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#092A2D] border border-teal-soft/40 hover:border-terracotta/50 text-sand/80 hover:text-sand text-xs font-mono transition-colors"
-            title="Access the Autonomous AI Concierge Lounge"
+            href="/dashboard"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#092A2D] border border-teal-soft/40 hover:border-terracotta/50 text-sand/80 hover:text-sand text-xs font-mono transition-colors"
+            title="Access the Enterprise Operations & Revenue Dashboard"
           >
             <Sparkles className="w-3 h-3 text-terracotta" />
-            <span>AI Concierge</span>
+            <span>Admin Dashboard</span>
           </Link>
 
           {/* Sign In Link */}
@@ -181,11 +181,11 @@ export function Header() {
               </a>
 
               <Link
-                href="/dashboard/concierge"
+                href="/dashboard"
                 className="flex-1 py-2.5 bg-[#061D1F] border border-teal-soft/40 text-sand text-xs font-mono text-center flex items-center justify-center gap-1.5"
               >
                 <Sparkles className="w-3.5 h-3.5 text-terracotta" />
-                <span>AI Concierge</span>
+                <span>Admin Dashboard</span>
               </Link>
             </div>
           </div>

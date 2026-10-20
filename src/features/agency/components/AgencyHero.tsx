@@ -95,10 +95,10 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
               <span>Sign Up for Membership</span>
             </Link>
             <Link
-              href="/dashboard/concierge"
+              href="/dashboard"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#092A2D] hover:bg-[#092A2D]/80 border border-teal-soft/40 text-sand/80 text-xs font-mono tracking-wider uppercase transition-all"
             >
-              <span>Instant AI Concierge</span>
+              <span>Operations & Admin Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5 text-terracotta" />
             </Link>
           </div>

@@ -119,8 +119,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/dashboard/concierge" className="text-terracotta hover:underline font-mono">
-                  Autonomous AI Concierge →
+                <Link href="/dashboard" className="text-terracotta hover:underline font-mono">
+                  Operations & Revenue Dashboard →
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard/concierge" className="hover:text-sand transition-colors font-mono">
+                  Autonomous AI Concierge
                 </Link>
               </li>
             </ul>
