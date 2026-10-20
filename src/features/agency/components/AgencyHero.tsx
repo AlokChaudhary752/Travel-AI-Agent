@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Compass, ShieldCheck, Sparkles, MapPin, Calendar, Users, IndianRupee } from "lucide-react";
+import { ArrowRight, Compass, Sparkles, MapPin, Calendar, Users, IndianRupee } from "lucide-react";
 import { AGENCY_DETAILS } from "../data/agencyData";
 
 interface AgencyHeroProps {
@@ -15,19 +15,51 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
   const [selectedTravelers, setSelectedTravelers] = useState("2 Guests (Couple)");
   const [selectedBudget, setSelectedBudget] = useState("₹2,00,000 – ₹4,00,000");
 
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    // Parallax scroll handler
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    // Subtle pointer parallax
+    const handleMouseMove = (e: MouseEvent) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const x = (e.clientX / window.innerWidth - 0.5) * 16;
+      const y = (e.clientY / window.innerHeight - 0.5) * 16;
+      setMouseOffset({ x, y });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onOpenEnquiry(selectedDest);
   };
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col justify-center pt-28 pb-20 overflow-hidden bg-[#071F22]">
-      {/* Full-bleed Curated Photography Background with Warm Film Grading */}
-      <div className="absolute inset-0 z-0">
+    <section
+      ref={heroRef}
+      className="relative min-h-[90vh] flex flex-col justify-center pt-28 pb-20 overflow-hidden bg-[#071F22]"
+    >
+      {/* Full-bleed Curated Photography Background with Parallax */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=2000&q=85"
           alt="Dal Lake at Twilight, Kashmir"
-          className="w-full h-full object-cover object-center brightness-[0.42] contrast-[1.08] filter"
+          className="w-full h-full object-cover object-center brightness-[0.42] contrast-[1.08] filter transition-transform duration-700 ease-out will-change-transform"
+          style={{
+            transform: `scale(1.08) translate3d(${mouseOffset.x}px, ${mouseOffset.y + scrollY * 0.15}px, 0)`,
+          }}
         />
         {/* Editorial Deep Teal and Sand Gradient Vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#071F22] via-[#092A2D]/60 to-[#071F22]/80" />

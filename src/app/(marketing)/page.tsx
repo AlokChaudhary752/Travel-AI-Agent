@@ -14,6 +14,7 @@ import { FAQAccordion } from "@/features/agency/components/FAQAccordion";
 import { FinalEnquiryBand } from "@/features/agency/components/FinalEnquiryBand";
 import { EnquiryModal } from "@/features/agency/components/EnquiryModal";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
+import { EditorialJsonLd } from "@/components/seo/EditorialJsonLd";
 
 export default function AgencyHomePage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,6 +29,9 @@ export default function AgencyHomePage() {
 
   return (
     <div className="bg-[#071F22] text-sand antialiased min-h-screen flex flex-col">
+      {/* Search Engine Rich Snippet Structured Data (JSON-LD) */}
+      <EditorialJsonLd />
+
       {/* 1. Hero Section */}
       <AgencyHero onOpenEnquiry={handleOpenEnquiry} />
 
