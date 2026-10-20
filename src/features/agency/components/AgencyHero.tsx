@@ -15,29 +15,28 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
   const [selectedTravelers, setSelectedTravelers] = useState("2 Guests (Couple)");
   const [selectedBudget, setSelectedBudget] = useState("₹2,00,000 – ₹4,00,000");
 
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
+  const bgImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    // Parallax scroll handler
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    let ticking = false;
 
-    // Subtle pointer parallax
-    const handleMouseMove = (e: MouseEvent) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      const x = (e.clientX / window.innerWidth - 0.5) * 16;
-      const y = (e.clientY / window.innerHeight - 0.5) * 16;
-      setMouseOffset({ x, y });
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (bgImgRef.current) {
+            const scrollY = window.scrollY;
+            bgImgRef.current.style.transform = `scale(1.06) translate3d(0, ${scrollY * 0.12}px, 0)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
@@ -54,12 +53,11 @@ export function AgencyHero({ onOpenEnquiry }: AgencyHeroProps) {
       {/* Full-bleed Curated Photography Background with Parallax */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
+          ref={bgImgRef}
           src="https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=2000&q=85"
           alt="Dal Lake at Twilight, Kashmir"
-          className="w-full h-full object-cover object-center brightness-[0.42] contrast-[1.08] filter transition-transform duration-700 ease-out will-change-transform"
-          style={{
-            transform: `scale(1.08) translate3d(${mouseOffset.x}px, ${mouseOffset.y + scrollY * 0.15}px, 0)`,
-          }}
+          className="w-full h-full object-cover object-center brightness-[0.42] contrast-[1.08] filter will-change-transform"
+          style={{ transform: "scale(1.06) translate3d(0, 0, 0)" }}
         />
         {/* Editorial Deep Teal and Sand Gradient Vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#071F22] via-[#092A2D]/60 to-[#071F22]/80" />
