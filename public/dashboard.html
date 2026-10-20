@@ -1,0 +1,2743 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voyara Luxury Travel — Operations & Revenue Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    /* -------------------------------------------------------------
+       DESIGN SYSTEM (Linear / Stripe inspired neutral base + Deep Teal)
+       ------------------------------------------------------------- */
+    :root {
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Spacing Scale (4/8pt) */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+
+      /* Radii */
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-xl: 14px;
+      --radius-full: 9999px;
+
+      /* Transitions */
+      --trans-fast: 140ms cubic-bezier(0.16, 1, 0.3, 1);
+      --trans-base: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* LIGHT THEME */
+      --bg-app: #F8F9FA;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F1F3F5;
+      --bg-hover: #E9ECEF;
+      --bg-active: #DEE2E6;
+
+      --border-subtle: #E9ECEF;
+      --border-base: #DEE2E6;
+      --border-strong: #CED4DA;
+
+      --text-primary: #111827;
+      --text-secondary: #4B5563;
+      --text-muted: #6B7280;
+      --text-faint: #9CA3AF;
+      --text-inverse: #FFFFFF;
+
+      /* Brand (Deep Teal) */
+      --brand: #0D5C63;
+      --brand-hover: #09474D;
+      --brand-surface: #E6F3F4;
+      --brand-border: #B2D8DC;
+
+      /* Semantic Statuses */
+      --success: #059669;
+      --success-surface: #ECFDF5;
+      --success-border: #A7F3D0;
+
+      --warning: #D97706;
+      --warning-surface: #FFFBEB;
+      --warning-border: #FDE68A;
+
+      --danger: #DC2626;
+      --danger-surface: #FEF2F2;
+      --danger-border: #FECACA;
+
+      --info: #2563EB;
+      --info-surface: #EFF6FF;
+      --info-border: #BFDBFE;
+
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+      --shadow-overlay: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+
+      --sidebar-width: 256px;
+      --sidebar-collapsed: 64px;
+      --topbar-height: 56px;
+    }
+
+    /* DARK THEME */
+    [data-theme="dark"] {
+      --bg-app: #0B0E11;
+      --bg-surface: #12161A;
+      --bg-subtle: #181D23;
+      --bg-hover: #20262E;
+      --bg-active: #2A323D;
+
+      --border-subtle: #1E242B;
+      --border-base: #28313A;
+      --border-strong: #36424E;
+
+      --text-primary: #F3F4F6;
+      --text-secondary: #D1D5DB;
+      --text-muted: #9CA3AF;
+      --text-faint: #6B7280;
+      --text-inverse: #0B0E11;
+
+      --brand: #188A94;
+      --brand-hover: #22A3AF;
+      --brand-surface: #0E2B2E;
+      --brand-border: #164D53;
+
+      --success: #10B981;
+      --success-surface: #064E3B22;
+      --success-border: #064E3B88;
+
+      --warning: #F59E0B;
+      --warning-surface: #78350F22;
+      --warning-border: #78350F88;
+
+      --danger: #EF4444;
+      --danger-surface: #7F1D1D22;
+      --danger-border: #7F1D1D88;
+
+      --info: #3B82F6;
+      --info-surface: #1E3A8A22;
+      --info-border: #1E3A8A88;
+
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+      --shadow-overlay: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-sans);
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+
+    #app {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* -------------------------------------------------------------
+       SIDEBAR
+       ------------------------------------------------------------- */
+    #sidebar {
+      width: var(--sidebar-width);
+      height: 100%;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-base);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: width var(--trans-base);
+      z-index: 40;
+    }
+
+    #sidebar.collapsed {
+      width: var(--sidebar-collapsed);
+    }
+
+    .sidebar-header {
+      height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .agency-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-md);
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-3) var(--space-2);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      padding: 0 var(--space-3);
+      margin-bottom: var(--space-1);
+    }
+
+    #sidebar.collapsed .nav-group-label {
+      display: none;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: background var(--trans-fast), color var(--trans-fast);
+      position: relative;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: var(--brand-surface);
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      stroke-width: 1.8px;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 10.5px;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+    }
+
+    .nav-item.active .nav-badge {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    #sidebar.collapsed .nav-item span,
+    #sidebar.collapsed .nav-badge {
+      display: none;
+    }
+
+    .sidebar-footer {
+      padding: var(--space-3);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .role-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-3);
+      background: var(--bg-subtle);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+    }
+
+    #sidebar.collapsed .role-indicator {
+      display: none;
+    }
+
+    /* -------------------------------------------------------------
+       MAIN STACK & TOPBAR
+       ------------------------------------------------------------- */
+    #main-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-width: 0;
+      background: var(--bg-app);
+    }
+
+    #topbar {
+      height: var(--topbar-height);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-6);
+      flex-shrink: 0;
+      z-index: 30;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex: 1;
+      max-width: 480px;
+    }
+
+    .search-trigger {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: 6px var(--space-3);
+      width: 100%;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: border-color var(--trans-fast);
+      user-select: none;
+    }
+
+    .search-trigger:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .kbd-shortcut {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 5px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-sm);
+      color: var(--text-faint);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-base);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      position: relative;
+      transition: all var(--trans-fast);
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+
+    .icon-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      background: var(--danger);
+      border-radius: 50%;
+      border: 1.5px solid var(--bg-surface);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--trans-fast);
+      border: 1px solid transparent;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      border-color: var(--border-base);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #B91C1C;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 11.5px;
+    }
+
+    /* -------------------------------------------------------------
+       WORKSPACE CONTENT CONTAINER
+       ------------------------------------------------------------- */
+    #content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-6);
+      position: relative;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.015em;
+    }
+
+    .page-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Segmented Filter Pills */
+    .filter-pills {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .pill-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--trans-fast);
+    }
+
+    .pill-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .pill-btn.active {
+      background: var(--brand);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* -------------------------------------------------------------
+       KPI CARDS & WIDGETS
+       ------------------------------------------------------------- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--trans-fast), border-color var(--trans-fast);
+    }
+
+    .kpi-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .kpi-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-footer {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 11.5px;
+    }
+
+    .trend-up {
+      color: var(--success);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* Chart Rows */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    @media (max-width: 1024px) {
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .panel-subtitle {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* -------------------------------------------------------------
+       TABLES (Linear compact style + Pagination)
+       ------------------------------------------------------------- */
+    .table-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-toolbar {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: 6px var(--space-3);
+      font-size: 12.5px;
+      min-width: 220px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand);
+      background: var(--bg-surface);
+    }
+
+    .table-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg-subtle);
+      padding: 10px var(--space-4);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-base);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    th:hover {
+      color: var(--text-primary);
+    }
+
+    td {
+      padding: 12px var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      text-transform: capitalize;
+    }
+
+    .status-confirmed, .status-paid, .status-won {
+      background: var(--success-surface);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+
+    .status-quoted, .status-proposal {
+      background: var(--info-surface);
+      color: var(--info);
+      border: 1px solid var(--info-border);
+    }
+
+    .status-enquiry, .status-new {
+      background: var(--warning-surface);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+
+    .status-cancelled, .status-lost {
+      background: var(--danger-surface);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+
+    .status-travelled {
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-base);
+    }
+
+    .table-pagination {
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+    }
+
+    /* -------------------------------------------------------------
+       KANBAN CRM (Drag & Drop Leads)
+       ------------------------------------------------------------- */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(260px, 1fr));
+      gap: var(--space-4);
+      overflow-x: auto;
+      padding-bottom: var(--space-4);
+      min-height: calc(100vh - 220px);
+    }
+
+    .kanban-col {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      max-height: 80vh;
+    }
+
+    .kanban-col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--border-base);
+    }
+
+    .kanban-col-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .kanban-col-count {
+      font-size: 11px;
+      padding: 1px 6px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .kanban-cards-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      min-height: 120px;
+    }
+
+    .kanban-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      box-shadow: var(--shadow-sm);
+      cursor: grab;
+      transition: all var(--trans-fast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .kanban-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-primary);
+    }
+
+    .card-budget {
+      font-weight: 600;
+      color: var(--brand);
+    }
+
+    .card-dest {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--text-faint);
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: var(--space-2);
+      margin-top: 2px;
+    }
+
+    /* -------------------------------------------------------------
+       SLIDE-OVER DRAWER & MODALS
+       ------------------------------------------------------------- */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--trans-base);
+    }
+
+    .drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 520px;
+      max-width: 100vw;
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border-base);
+      box-shadow: var(--shadow-overlay);
+      transform: translateX(100%);
+      transition: transform var(--trans-base);
+      display: flex;
+      flex-direction: column;
+      z-index: 101;
+    }
+
+    .drawer.active {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .drawer-footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      background: var(--bg-subtle);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-size: 12.5px;
+      transition: all var(--trans-fast);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--brand);
+      background: var(--bg-surface);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    /* Command Palette Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 12vh;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .command-box {
+      width: 580px;
+      max-width: 90vw;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-overlay);
+      overflow: hidden;
+      animation: cmdSlideDown 160ms var(--trans-base);
+    }
+
+    @keyframes cmdSlideDown {
+      from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .command-input-wrapper {
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      border-bottom: 1px solid var(--border-base);
+    }
+
+    .command-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .command-results {
+      max-height: 340px;
+      overflow-y: auto;
+      padding: var(--space-2);
+    }
+
+    .command-item {
+      padding: 10px var(--space-3);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .command-item:hover, .command-item.selected {
+      background: var(--brand-surface);
+      color: var(--brand);
+    }
+
+    /* Toast Alerts */
+    #toast-container {
+      position: fixed;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-base);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: 12.5px;
+      animation: toastIn 180ms var(--trans-base);
+      min-width: 280px;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .toast-undo {
+      margin-left: auto;
+      color: var(--brand);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- COLLAPSIBLE SIDEBAR -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <div class="agency-brand">
+          <div class="brand-mark">V</div>
+          <div class="brand-text">
+            <span class="brand-title">Voyara Journeys</span>
+            <span class="brand-sub">Mumbai HQ</span>
+          </div>
+        </div>
+        <button class="icon-btn no-print" id="btn-toggle-sidebar" title="Toggle Sidebar">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" /></svg>
+        </button>
+      </div>
+
+      <div class="nav-container">
+        <!-- Core Navigation -->
+        <div>
+          <div class="nav-group-label">Operations</div>
+          <ul class="nav-list">
+            <li class="nav-item active" data-tab="overview">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+              <span>Overview</span>
+            </li>
+            <li class="nav-item" data-tab="bookings">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" /></svg>
+              <span>Bookings</span>
+              <span class="nav-badge" id="badge-bookings-count">0</span>
+            </li>
+            <li class="nav-item" data-tab="leads">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>
+              <span>Leads CRM</span>
+              <span class="nav-badge" id="badge-leads-count">0</span>
+            </li>
+            <li class="nav-item" data-tab="customers">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+              <span>VIP Clients</span>
+            </li>
+            <li class="nav-item" data-tab="packages">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+              <span>Packages & Builder</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Financial & Analytics Navigation -->
+        <div>
+          <div class="nav-group-label">Intelligence</div>
+          <ul class="nav-list">
+            <li class="nav-item" data-tab="payments">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+              <span>Payments & Aging</span>
+            </li>
+            <li class="nav-item" data-tab="calendar">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+              <span>Departures Calendar</span>
+            </li>
+            <li class="nav-item" data-tab="reports">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A2.25 2.25 0 013 18.75v-5.625zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a2.25 2.25 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a2.25 2.25 0 01-1.125-1.125V4.125z" /></svg>
+              <span>Reports & Margins</span>
+            </li>
+            <li class="nav-item" data-tab="settings">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              <span>Settings & Roles</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="role-indicator">
+          <span>Active Role:</span>
+          <select id="select-role-persona" class="form-control" style="padding: 2px 6px; font-size: 11px;">
+            <option value="Admin">Admin (Full Access)</option>
+            <option value="Sales">Sales Curator</option>
+            <option value="Accountant">Accountant</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN STACK -->
+    <div id="main-stack">
+      <!-- TOPBAR -->
+      <header id="topbar">
+        <div class="topbar-left">
+          <div class="search-trigger" id="btn-open-command">
+            <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+            <span>Search 60+ bookings, leads, clients (Ctrl+K)...</span>
+            <span class="kbd-shortcut">⌘K</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Notification Dropdown -->
+          <button class="icon-btn" id="btn-notifications" title="System Notifications">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+            <span class="badge-dot"></span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button class="icon-btn" id="btn-theme-toggle" title="Toggle Theme">
+            <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+          </button>
+
+          <!-- Quick Action -->
+          <button class="btn btn-primary" id="btn-quick-new-booking">
+            <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            <span>New Booking</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- DYNAMIC CONTENT VIEWPORT -->
+      <main id="content-area"></main>
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER DRAWER -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="main-drawer">
+    <div class="drawer-header">
+      <h3 class="panel-title" id="drawer-title">Create New Booking</h3>
+      <button class="icon-btn" id="btn-close-drawer">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <form id="drawer-form" class="drawer-body"></form>
+    <div class="drawer-footer">
+      <button type="button" class="btn btn-secondary" id="btn-cancel-drawer">Cancel</button>
+      <button type="submit" form="drawer-form" class="btn btn-primary" id="btn-save-drawer">Save Record</button>
+    </div>
+  </aside>
+
+  <!-- COMMAND PALETTE MODAL -->
+  <div class="modal-overlay" id="command-modal">
+    <div class="command-box">
+      <div class="command-input-wrapper">
+        <svg style="width: 16px; height: 16px; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+        <input type="text" class="command-input" id="command-query" placeholder="Type a command or search record (ESC to exit)..." autocomplete="off">
+      </div>
+      <div class="command-results" id="command-results-list"></div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container"></div>
+
+  <script>
+    /* -------------------------------------------------------------
+       HIGH-FIDELITY REALISTIC DATA GENERATOR (60+ BOOKINGS, 40+ LEADS, 30+ CLIENTS)
+       ------------------------------------------------------------- */
+    const STORAGE_KEY = 'voyara_prod_admin_v2';
+
+    const INDIAN_FIRST_NAMES = ["Vikramaditya", "Ananya", "Rohan", "Meera", "Kabir", "Priya", "Sunita", "Aarav", "Neha", "Aditya", "Tara", "Manish", "Zoya", "Karan", "Pooja", "Arjun", "Simran", "Rajesh", "Kavita", "Siddharth", "Nisha", "Harsh", "Deepika", "Devendra", "Tanvi", "Gautam", "Rhea", "Naveen", "Smriti", "Kunal", "Alok", "Isha"];
+    const INDIAN_LAST_NAMES = ["Singhania", "Iyer", "Sharma", "Malhotra", "Mehta", "Reddy", "Kapoor", "Verma", "Godrej", "Khosla", "Chawla", "Akhtar", "Bajaj", "Bansal", "Goenka", "Jindal", "Birla", "Ambani", "Tata", "Murthy", "Nambiar", "Deshmukh", "Chaudhary", "Oberoi", "Bhatia", "Grover", "Poddar", "Piramal"];
+    const INDIAN_CITIES = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Chandigarh"];
+    const DESTINATIONS = ["Kashmir", "Rajasthan", "Maldives", "Switzerland", "Dubai", "Bali", "Goa", "Manali", "Ladakh", "Thailand"];
+    const AGENTS = ["Pooja Roy", "Amitabh Sen", "Kavita Nair", "Vikram Patel", "Rhea Kapoor"];
+    const STATUSES = ["Confirmed", "Paid", "Quoted", "Travelled", "Enquiry", "Cancelled"];
+    const SOURCES = ["Instagram Luxury", "HNI Referral", "Google Search", "WhatsApp Concierge", "Website Direct", "Private Jet Lounge"];
+
+    function generateSeededData() {
+      // 1. Generate 32 Realistic VIP Customers
+      const customers = [];
+      for (let i = 0; i < 32; i++) {
+        const first = INDIAN_FIRST_NAMES[i % INDIAN_FIRST_NAMES.length];
+        const last = INDIAN_LAST_NAMES[i % INDIAN_LAST_NAMES.length];
+        const name = `${first} ${last}`;
+        const city = INDIAN_CITIES[i % INDIAN_CITIES.length];
+        const trips = (i % 6) + 2;
+        const spend = trips * (250000 + (i * 45000));
+        const tier = spend > 2500000 ? "Diamond VIP" : spend > 1200000 ? "Platinum VIP" : "Gold VIP";
+        customers.push({
+          id: `CUST-${101 + i}`,
+          name,
+          city,
+          email: `${first.toLowerCase()}.${last.toLowerCase()}@${i % 2 === 0 ? 'corp.in' : 'familyoffice.com'}`,
+          phone: `+91 ${98000 + (i * 57)} ${10000 + (i * 243)}`,
+          tier,
+          spend,
+          trips,
+          prefs: i % 3 === 0 ? "Strict Jain cuisine, private villa only" : i % 3 === 1 ? "Lie-flat suites, quiet luxury, champagne welcome" : "Michelin dining, snow sports, private helicopter"
+        });
+      }
+
+      // 2. Generate 65 Realistic Bookings across 12 months & next 3 months
+      const bookings = [];
+      const baseDates = [
+        "2026-01-12", "2026-02-04", "2026-02-18", "2026-03-10", "2026-03-24",
+        "2026-04-05", "2026-04-20", "2026-05-02", "2026-05-15", "2026-05-28",
+        "2026-06-08", "2026-06-22", "2026-07-04", "2026-07-19", "2026-08-02",
+        "2026-08-16", "2026-09-05", "2026-09-20", "2026-10-02", "2026-10-14",
+        "2026-10-22", "2026-11-05", "2026-11-12", "2026-11-20", "2026-12-05",
+        "2026-12-18", "2026-12-28", "2027-01-08", "2027-01-22", "2027-02-14"
+      ];
+
+      for (let i = 0; i < 65; i++) {
+        const cust = customers[i % customers.length];
+        const dest = DESTINATIONS[i % DESTINATIONS.length];
+        const agent = AGENTS[i % AGENTS.length];
+        const dateStr = baseDates[i % baseDates.length];
+        const dateObj = new Date(dateStr);
+        dateObj.setDate(dateObj.getDate() + 6);
+        const returnDateStr = dateObj.toISOString().split('T')[0];
+
+        const amount = 180000 + ((i * 37000) % 950000);
+        const status = i < 8 ? "Confirmed" : i < 18 ? "Paid" : i < 30 ? "Travelled" : i < 48 ? "Confirmed" : i < 58 ? "Quoted" : i < 62 ? "Enquiry" : "Cancelled";
+        const paid = status === "Paid" ? amount : status === "Confirmed" ? Math.round(amount * 0.6) : status === "Travelled" ? amount : 0;
+
+        bookings.push({
+          id: `BK-${8801 + i}`,
+          customer: cust.name,
+          destination: dest,
+          date: dateStr,
+          returnDate: returnDateStr,
+          amount,
+          status,
+          agent,
+          paid,
+          guests: (i % 3) + 2
+        });
+      }
+
+      // 3. Generate 42 Realistic Leads
+      const leads = [];
+      const stages = ["New Lead", "Contacted", "Proposal Sent", "Negotiation", "Won"];
+      for (let i = 0; i < 42; i++) {
+        const first = INDIAN_FIRST_NAMES[(i + 7) % INDIAN_FIRST_NAMES.length];
+        const last = INDIAN_LAST_NAMES[(i + 5) % INDIAN_LAST_NAMES.length];
+        const dest = DESTINATIONS[(i + 2) % DESTINATIONS.length];
+        const stage = stages[i % stages.length];
+        const budget = 250000 + ((i * 45000) % 1200000);
+        const dayOffset = (i % 14) - 4;
+        const d = new Date();
+        d.setDate(d.getDate() + dayOffset);
+        const followUp = d.toISOString().split('T')[0];
+
+        leads.push({
+          id: `LD-${501 + i}`,
+          name: `${first} ${last}`,
+          destination: dest,
+          source: SOURCES[i % SOURCES.length],
+          budget,
+          stage,
+          followUp,
+          notes: i % 2 === 0 ? "Anniversary getaway; requested private infinity pool villa" : "Family reunion (4 adults, 2 kids); wants ski passes and English butler"
+        });
+      }
+
+      // 4. Generate 12 Flagship Packages
+      const packages = [
+        { id: "PKG-01", name: "Kashmir Gulmarg Powder & Private Chalet", destination: "Kashmir", days: 6, costPrice: 120000, sellPrice: 210000, seats: 12 },
+        { id: "PKG-02", name: "Royal Rajasthan Heritage Haveli Trail", destination: "Rajasthan", days: 8, costPrice: 210000, sellPrice: 380000, seats: 8 },
+        { id: "PKG-03", name: "Kerala Backwater Houseboat & Ayurveda", destination: "Kerala", days: 5, costPrice: 65000, sellPrice: 135000, seats: 15 },
+        { id: "PKG-04", name: "Ladakh High Passes Nubra Expedition", destination: "Ladakh", days: 7, costPrice: 95000, sellPrice: 175000, seats: 10 },
+        { id: "PKG-05", name: "Maldives Private Overwater Retreat", destination: "Maldives", days: 5, costPrice: 380000, sellPrice: 620000, seats: 6 },
+        { id: "PKG-06", name: "Dubai Desert Palm & Heli Flight", destination: "Dubai", days: 5, costPrice: 180000, sellPrice: 310000, seats: 14 },
+        { id: "PKG-07", name: "Bali Secret Uluwatu Cliff Sanctuary", destination: "Bali", days: 6, costPrice: 110000, sellPrice: 195000, seats: 16 },
+        { id: "PKG-08", name: "Manali Private Cedar Chalet Winter", destination: "Manali", days: 4, costPrice: 48000, sellPrice: 95000, seats: 20 },
+        { id: "PKG-09", name: "Goa Morjim Portuguese Estate Yacht", destination: "Goa", days: 4, costPrice: 75000, sellPrice: 145000, seats: 18 },
+        { id: "PKG-10", name: "Swiss Alps Zermatt Glacier Express", destination: "Switzerland", days: 8, costPrice: 420000, sellPrice: 750000, seats: 6 },
+        { id: "PKG-11", name: "Andaman Havelock Secluded Scuba", destination: "Andaman", days: 6, costPrice: 92000, sellPrice: 168000, seats: 12 },
+        { id: "PKG-12", name: "Thailand Koh Samui Private Catamaran", destination: "Thailand", days: 5, costPrice: 130000, sellPrice: 225000, seats: 10 }
+      ];
+
+      // 5. Generate Payments Ledger
+      const payments = [];
+      bookings.forEach((b, idx) => {
+        if (b.paid > 0) {
+          payments.push({
+            id: `INV-2026-${100 + idx}`,
+            bookingId: b.id,
+            client: b.customer,
+            amount: b.paid,
+            status: "Received",
+            date: b.date,
+            method: idx % 3 === 0 ? "Bank Transfer (NEFT)" : idx % 3 === 1 ? "Amex Centurion" : "RTGS Wire"
+          });
+        }
+        if (b.amount > b.paid && b.status !== 'Cancelled') {
+          payments.push({
+            id: `INV-2026-${500 + idx}`,
+            bookingId: b.id,
+            client: b.customer,
+            amount: b.amount - b.paid,
+            status: "Pending",
+            date: b.returnDate,
+            method: "Payment Link / Due"
+          });
+        }
+      });
+
+      return {
+        agency: {
+          name: "Voyara Luxury Journeys",
+          city: "Mumbai",
+          currency: "₹",
+          gstRate: 5,
+          owner: "Alok Kumar Chaudhary",
+          taxId: "27AABCV1234F1Z8"
+        },
+        currentRole: "Admin",
+        theme: "light",
+        activeTab: "overview",
+        dateFilter: "30D",
+        bookingsPage: 1,
+        bookingsPerPage: 10,
+        sortColumn: "id",
+        sortDirection: "desc",
+        bookings,
+        leads,
+        customers,
+        packages,
+        payments
+      };
+    }
+
+    // Initialize Store
+    let AppState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!AppState || !AppState.bookings || AppState.bookings.length < 50) {
+      AppState = generateSeededData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
+    }
+
+    function formatINR(val) {
+      if (typeof val !== 'number') val = Number(val) || 0;
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      }).format(val);
+    }
+
+    /* -------------------------------------------------------------
+       TOAST ALERTS
+       ------------------------------------------------------------- */
+    function showToast(message, undoAction = null) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <svg style="width: 16px; height: 16px; color: var(--success);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>${message}</span>
+        ${undoAction ? `<span class="toast-undo">Undo</span>` : ''}
+      `;
+
+      if (undoAction) {
+        toast.querySelector('.toast-undo').addEventListener('click', () => {
+          undoAction();
+          toast.remove();
+        });
+      }
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 200);
+      }, 4000);
+    }
+
+    /* -------------------------------------------------------------
+       ROUTER & TAB SWITCHING
+       ------------------------------------------------------------- */
+    function switchTab(tabName) {
+      AppState.activeTab = tabName;
+      saveState();
+
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.tab === tabName);
+      });
+
+      renderCurrentTab();
+    }
+
+    function renderCurrentTab() {
+      const area = document.getElementById('content-area');
+      const tab = AppState.activeTab;
+
+      // Update counters
+      document.getElementById('badge-bookings-count').textContent = AppState.bookings.length;
+      document.getElementById('badge-leads-count').textContent = AppState.leads.length;
+
+      switch (tab) {
+        case 'overview':
+          area.innerHTML = renderOverviewTab();
+          initOverviewCharts();
+          break;
+        case 'bookings':
+          area.innerHTML = renderBookingsTab();
+          attachBookingsListeners();
+          break;
+        case 'leads':
+          area.innerHTML = renderLeadsTab();
+          attachLeadsDragDrop();
+          break;
+        case 'customers':
+          area.innerHTML = renderCustomersTab();
+          break;
+        case 'packages':
+          area.innerHTML = renderPackagesTab();
+          attachPackageListeners();
+          break;
+        case 'payments':
+          area.innerHTML = renderPaymentsTab();
+          break;
+        case 'calendar':
+          area.innerHTML = renderCalendarTab();
+          break;
+        case 'reports':
+          area.innerHTML = renderReportsTab();
+          break;
+        case 'settings':
+          area.innerHTML = renderSettingsTab();
+          attachSettingsListeners();
+          break;
+        default:
+          area.innerHTML = `<div>Select a tab from the sidebar.</div>`;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 1: OVERVIEW TAB
+       ------------------------------------------------------------- */
+    function renderOverviewTab() {
+      const validBookings = AppState.bookings.filter(b => b.status !== 'Cancelled');
+      const totalRevenue = validBookings.reduce((sum, b) => sum + b.amount, 0);
+      const totalReceived = AppState.payments.filter(p => p.status === 'Received').reduce((sum, p) => sum + p.amount, 0);
+      const outstanding = AppState.payments.filter(p => p.status === 'Pending').reduce((sum, p) => sum + p.amount, 0);
+      const confirmedCount = AppState.bookings.filter(b => b.status === 'Confirmed' || b.status === 'Paid').length;
+      const conversionRate = Math.round((confirmedCount / (AppState.leads.length + AppState.bookings.length || 1)) * 100);
+
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Executive Operations Overview</h1>
+            <p class="page-desc">High-level sales velocity across ${AppState.bookings.length} tracked journeys and ₹${(totalRevenue / 10000000).toFixed(2)} Cr gross value.</p>
+          </div>
+          <div class="filter-pills">
+            <button class="pill-btn ${AppState.dateFilter === '7D' ? 'active' : ''}" onclick="setDateFilter('7D')">7D</button>
+            <button class="pill-btn ${AppState.dateFilter === '30D' ? 'active' : ''}" onclick="setDateFilter('30D')">30D</button>
+            <button class="pill-btn ${AppState.dateFilter === '90D' ? 'active' : ''}" onclick="setDateFilter('90D')">90D</button>
+            <button class="pill-btn ${AppState.dateFilter === 'YTD' ? 'active' : ''}" onclick="setDateFilter('YTD')">YTD</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Gross Booked Value</span></div>
+            <div class="kpi-value tabular-nums">${formatINR(totalRevenue)}</div>
+            <div class="kpi-footer"><span class="trend-up">↑ 24.8%</span><span style="color: var(--text-faint)">across ${validBookings.length} bookings</span></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Realized Cash (Bank)</span></div>
+            <div class="kpi-value tabular-nums" style="color: var(--success);">${formatINR(totalReceived)}</div>
+            <div class="kpi-footer"><span class="trend-up">↑ 19.3%</span><span style="color: var(--text-faint)">reconciled</span></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Pending Receivables</span></div>
+            <div class="kpi-value tabular-nums" style="color: var(--warning);">${formatINR(outstanding)}</div>
+            <div class="kpi-footer"><span style="color: var(--text-faint)">due in next 30 days</span></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Conversion Rate</span></div>
+            <div class="kpi-value tabular-nums">${conversionRate}%</div>
+            <div class="kpi-footer"><span class="trend-up">↑ 6.4%</span><span style="color: var(--text-faint)">from 42 open leads</span></div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="panel-card">
+            <div class="panel-head">
+              <div>
+                <h3 class="panel-title">Monthly Revenue Momentum</h3>
+                <p class="panel-subtitle">Gross booking inflow in Lakhs (₹)</p>
+              </div>
+            </div>
+            <div style="height: 250px;">
+              <canvas id="chart-revenue"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-head">
+              <div>
+                <h3 class="panel-title">Top Destinations</h3>
+                <p class="panel-subtitle">Volume distribution by destination</p>
+              </div>
+            </div>
+            <div style="height: 250px;">
+              <canvas id="chart-destinations"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-head">
+            <div>
+              <h3 class="panel-title">Upcoming VIP Departures</h3>
+              <p class="panel-subtitle">First 5 scheduled departures</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="switchTab('bookings')">View All ${AppState.bookings.length} Bookings →</button>
+          </div>
+          <div class="table-container" style="border: none; box-shadow: none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Client</th>
+                  <th>Destination</th>
+                  <th>Departure Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${AppState.bookings.slice(0, 5).map(b => `
+                  <tr>
+                    <td class="tabular-nums font-bold">${b.id}</td>
+                    <td><strong>${b.customer}</strong></td>
+                    <td>${b.destination}</td>
+                    <td class="tabular-nums">${b.date}</td>
+                    <td class="tabular-nums" style="color: var(--brand); font-weight: 600;">${formatINR(b.amount)}</td>
+                    <td><span class="status-pill status-${b.status.toLowerCase()}">${b.status}</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function setDateFilter(filter) {
+      AppState.dateFilter = filter;
+      saveState();
+      renderCurrentTab();
+    }
+
+    function initOverviewCharts() {
+      const revCtx = document.getElementById('chart-revenue')?.getContext('2d');
+      if (revCtx) {
+        new Chart(revCtx, {
+          type: 'line',
+          data: {
+            labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct (Peak)', 'Nov (Proj)', 'Dec (Proj)'],
+            datasets: [{
+              label: 'Gross Bookings (₹)',
+              data: [1850000, 3100000, 1600000, 2250000, 2900000, 5800000, 6400000, 8900000],
+              borderColor: '#0D5C63',
+              backgroundColor: 'rgba(13, 92, 99, 0.08)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 2,
+              pointRadius: 4,
+              pointBackgroundColor: '#0D5C63'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { display: false } },
+              y: {
+                grid: { color: 'rgba(0,0,0,0.05)' },
+                ticks: { callback: v => '₹' + (v / 100000) + 'L' }
+              }
+            }
+          }
+        });
+      }
+
+      const destCtx = document.getElementById('chart-destinations')?.getContext('2d');
+      if (destCtx) {
+        // Count destinations dynamically from 65 bookings
+        const counts = {};
+        AppState.bookings.forEach(b => {
+          counts[b.destination] = (counts[b.destination] || 0) + 1;
+        });
+
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+        new Chart(destCtx, {
+          type: 'bar',
+          data: {
+            labels: sorted.map(s => s[0]),
+            datasets: [{
+              data: sorted.map(s => s[1]),
+              backgroundColor: '#188A94',
+              borderRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { display: false } },
+              y: { grid: { display: false } }
+            }
+          }
+        });
+      }
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 2: BOOKINGS TABLE WITH PAGINATION & SORTING
+       ------------------------------------------------------------- */
+    function renderBookingsTab() {
+      const page = AppState.bookingsPage || 1;
+      const perPage = AppState.bookingsPerPage || 10;
+      const totalPages = Math.ceil(AppState.bookings.length / perPage);
+
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Bookings Manifest (${AppState.bookings.length} Total Records)</h1>
+            <p class="page-desc">Sortable, searchable, and paginated travel operational records.</p>
+          </div>
+          <div class="table-actions">
+            <button class="btn btn-secondary" onclick="exportToCSV('bookings')">Export CSV</button>
+            <button class="btn btn-primary" onclick="openNewBookingDrawer()">+ New Booking</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-toolbar">
+            <input type="text" id="bookings-search" class="search-input" placeholder="Search across 60+ bookings...">
+            <div class="table-actions">
+              <select id="bookings-filter-status" class="form-control" style="font-size: 11.5px; padding: 5px 8px;">
+                <option value="ALL">All Statuses</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Paid">Paid</option>
+                <option value="Quoted">Quoted</option>
+                <option value="Travelled">Travelled</option>
+                <option value="Enquiry">Enquiry</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+              <select id="bookings-filter-dest" class="form-control" style="font-size: 11.5px; padding: 5px 8px;">
+                <option value="ALL">All Destinations</option>
+                ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th onclick="sortBookings('id')">Booking ID ↕</th>
+                  <th onclick="sortBookings('customer')">Client ↕</th>
+                  <th onclick="sortBookings('destination')">Destination ↕</th>
+                  <th onclick="sortBookings('date')">Travel Dates ↕</th>
+                  <th>Guests</th>
+                  <th onclick="sortBookings('amount')">Amount ↕</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookings-table-body">
+                ${renderBookingsRows(getPaginatedBookings())}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-pagination">
+            <span>Showing Page ${page} of ${totalPages} (${AppState.bookings.length} items)</span>
+            <div style="display: flex; gap: var(--space-2);">
+              <button class="btn btn-secondary btn-sm" onclick="changeBookingsPage(-1)" ${page <= 1 ? 'disabled' : ''}>← Previous</button>
+              <button class="btn btn-secondary btn-sm" onclick="changeBookingsPage(1)" ${page >= totalPages ? 'disabled' : ''}>Next →</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getPaginatedBookings() {
+      const page = AppState.bookingsPage || 1;
+      const perPage = AppState.bookingsPerPage || 10;
+      const start = (page - 1) * perPage;
+      return AppState.bookings.slice(start, start + perPage);
+    }
+
+    function changeBookingsPage(delta) {
+      const perPage = AppState.bookingsPerPage || 10;
+      const totalPages = Math.ceil(AppState.bookings.length / perPage);
+      let page = (AppState.bookingsPage || 1) + delta;
+      if (page < 1) page = 1;
+      if (page > totalPages) page = totalPages;
+      AppState.bookingsPage = page;
+      saveState();
+      renderCurrentTab();
+    }
+
+    function sortBookings(column) {
+      if (AppState.sortColumn === column) {
+        AppState.sortDirection = AppState.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        AppState.sortColumn = column;
+        AppState.sortDirection = 'asc';
+      }
+
+      AppState.bookings.sort((a, b) => {
+        let valA = a[column];
+        let valB = b[column];
+        if (typeof valA === 'string') {
+          return AppState.sortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        return AppState.sortDirection === 'asc' ? valA - valB : valB - valA;
+      });
+
+      saveState();
+      renderCurrentTab();
+    }
+
+    function renderBookingsRows(items) {
+      if (!items || items.length === 0) {
+        return `<tr><td colspan="8" style="text-align: center; padding: 32px; color: var(--text-faint);">No bookings matched your criteria.</td></tr>`;
+      }
+
+      return items.map(b => `
+        <tr>
+          <td class="tabular-nums" style="font-weight: 600;">${b.id}</td>
+          <td><strong>${b.customer}</strong></td>
+          <td>${b.destination}</td>
+          <td class="tabular-nums">${b.date} → ${b.returnDate}</td>
+          <td class="tabular-nums">${b.guests} PAX</td>
+          <td class="tabular-nums" style="font-weight: 600; color: var(--brand);">${formatINR(b.amount)}</td>
+          <td><span class="status-pill status-${b.status.toLowerCase()}">${b.status}</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="printInvoice('${b.id}')">Invoice</button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteBooking('${b.id}')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function attachBookingsListeners() {
+      const search = document.getElementById('bookings-search');
+      const filterStatus = document.getElementById('bookings-filter-status');
+      const filterDest = document.getElementById('bookings-filter-dest');
+
+      const update = () => {
+        const query = search.value.toLowerCase();
+        const status = filterStatus.value;
+        const dest = filterDest.value;
+
+        const filtered = AppState.bookings.filter(b => {
+          const matchQuery = b.customer.toLowerCase().includes(query) ||
+                             b.id.toLowerCase().includes(query) ||
+                             b.destination.toLowerCase().includes(query);
+          const matchStatus = status === 'ALL' || b.status === status;
+          const matchDest = dest === 'ALL' || b.destination === dest;
+          return matchQuery && matchStatus && matchDest;
+        });
+
+        document.getElementById('bookings-table-body').innerHTML = renderBookingsRows(filtered.slice(0, 15));
+      };
+
+      search?.addEventListener('input', update);
+      filterStatus?.addEventListener('change', update);
+      filterDest?.addEventListener('change', update);
+    }
+
+    function deleteBooking(id) {
+      const idx = AppState.bookings.findIndex(b => b.id === id);
+      if (idx === -1) return;
+
+      const deleted = AppState.bookings.splice(idx, 1)[0];
+      saveState();
+      renderCurrentTab();
+
+      showToast(`Booking ${id} deleted.`, () => {
+        AppState.bookings.splice(idx, 0, deleted);
+        saveState();
+        renderCurrentTab();
+      });
+    }
+
+    function printInvoice(bookingId) {
+      const b = AppState.bookings.find(item => item.id === bookingId);
+      if (!b) return;
+
+      const gst = Math.round(b.amount * 0.05);
+      const subtotal = b.amount - gst;
+
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Tax Invoice #${b.id} — Voyara Journeys</title>
+          <style>
+            body { font-family: 'Geist', sans-serif; padding: 40px; color: #111; max-width: 800px; margin: auto; }
+            .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #0D5C63; padding-bottom: 20px; }
+            .inv-title { font-size: 26px; font-weight: 700; color: #0D5C63; }
+            .inv-grid { display: grid; grid-template-columns: 1fr 1fr; margin: 30px 0; gap: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+            .total-row td { font-weight: bold; font-size: 16px; border-top: 2px solid #000; }
+          </style>
+        </head>
+        <body>
+          <div class="inv-header">
+            <div>
+              <div class="inv-title">VOYARA JOURNEYS</div>
+              <div>Bespoke Private Aviation & Itineraries</div>
+              <div>Nariman Point, Mumbai 400021</div>
+              <div>GSTIN: 27AABCV1234F1Z8</div>
+            </div>
+            <div style="text-align: right;">
+              <h2>TAX INVOICE</h2>
+              <div>Invoice #: INV-${b.id}</div>
+              <div>Date: ${b.date}</div>
+            </div>
+          </div>
+          <div class="inv-grid">
+            <div>
+              <strong>Billed To:</strong><br>
+              ${b.customer}<br>
+              VIP Client Manifest
+            </div>
+            <div style="text-align: right;">
+              <strong>Destination & Duration:</strong><br>
+              ${b.destination} Luxury Itinerary<br>
+              ${b.date} to ${b.returnDate} (${b.guests} Guests)
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Description</th><th>PAX</th><th style="text-align: right;">Amount (INR)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Curated ${b.destination} Ground Services & Private Stays</td><td>${b.guests}</td><td style="text-align: right;">₹${subtotal.toLocaleString('en-IN')}</td></tr>
+              <tr><td>Goods & Services Tax (GST @ 5%)</td><td>-</td><td style="text-align: right;">₹${gst.toLocaleString('en-IN')}</td></tr>
+              <tr class="total-row"><td>Grand Total</td><td>-</td><td style="text-align: right;">₹${b.amount.toLocaleString('en-IN')}</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 40px; font-size: 12px; color: #666;">Computer-generated tax document compliant with Indian Tax Jurisdiction. Authorized signature by Voyara International.</p>
+          <script>window.onload = function() { window.print(); }<\/script>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 3: LEADS CRM KANBAN (DRAG & DROP)
+       ------------------------------------------------------------- */
+    const PIPELINE_STAGES = ["New Lead", "Contacted", "Proposal Sent", "Negotiation", "Won"];
+
+    function renderLeadsTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">HNI Sales Pipeline (${AppState.leads.length} Active Leads)</h1>
+            <p class="page-desc">Drag and drop cards between advisory stages to progress high-value travel prospects.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openNewLeadDrawer()">+ Add Lead</button>
+        </div>
+
+        <div class="kanban-board">
+          ${PIPELINE_STAGES.map(stage => {
+            const stageLeads = AppState.leads.filter(l => l.stage === stage);
+            return `
+              <div class="kanban-col" data-stage="${stage}">
+                <div class="kanban-col-header">
+                  <span class="kanban-col-title">${stage}</span>
+                  <span class="kanban-col-count">${stageLeads.length}</span>
+                </div>
+                <div class="kanban-cards-wrapper" data-stage="${stage}">
+                  ${stageLeads.map(lead => `
+                    <div class="kanban-card" draggable="true" data-id="${lead.id}">
+                      <div class="card-top">
+                        <span class="card-name">${lead.name}</span>
+                        <span class="card-budget tabular-nums">${formatINR(lead.budget)}</span>
+                      </div>
+                      <div class="card-dest">📍 ${lead.destination} • <em>${lead.source}</em></div>
+                      <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">
+                        ${lead.notes}
+                      </div>
+                      <div class="card-meta">
+                        <span>Follow-up: <strong>${lead.followUp}</strong></span>
+                        ${stage !== 'Won' ? `<button class="btn btn-secondary btn-sm" onclick="convertLeadToBooking('${lead.id}')">Convert →</button>` : '<span>✓ Won</span>'}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function attachLeadsDragDrop() {
+      const cards = document.querySelectorAll('.kanban-card');
+      const wrappers = document.querySelectorAll('.kanban-cards-wrapper');
+      let draggedCardId = null;
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', () => {
+          draggedCardId = card.dataset.id;
+          card.style.opacity = '0.5';
+        });
+
+        card.addEventListener('dragend', () => {
+          card.style.opacity = '1';
+        });
+      });
+
+      wrappers.forEach(wrapper => {
+        wrapper.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          wrapper.style.background = 'var(--bg-hover)';
+        });
+
+        wrapper.addEventListener('dragleave', () => {
+          wrapper.style.background = 'transparent';
+        });
+
+        wrapper.addEventListener('drop', (e) => {
+          e.preventDefault();
+          wrapper.style.background = 'transparent';
+          const newStage = wrapper.dataset.stage;
+
+          const lead = AppState.leads.find(l => l.id === draggedCardId);
+          if (lead && lead.stage !== newStage) {
+            lead.stage = newStage;
+            saveState();
+            renderCurrentTab();
+            showToast(`Moved ${lead.name} to ${newStage}`);
+          }
+        });
+      });
+    }
+
+    function convertLeadToBooking(leadId) {
+      const lead = AppState.leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      const newBooking = {
+        id: `BK-${Math.floor(8900 + Math.random() * 1000)}`,
+        customer: lead.name,
+        destination: lead.destination,
+        date: "2026-11-20",
+        returnDate: "2026-11-26",
+        amount: lead.budget,
+        status: "Confirmed",
+        agent: "Pooja Roy",
+        paid: Math.round(lead.budget * 0.5),
+        guests: 2
+      };
+
+      AppState.bookings.unshift(newBooking);
+      lead.stage = "Won";
+      saveState();
+      renderCurrentTab();
+      showToast(`1-Click Converted! Booking ${newBooking.id} created.`);
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 4: CUSTOMERS CRM (32 CLIENTS)
+       ------------------------------------------------------------- */
+    function renderCustomersTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">VIP Client Profiles (${AppState.customers.length} HNI Clients)</h1>
+            <p class="page-desc">High-Net-Worth individuals, past spending history, and bespoke culinary preferences.</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>City</th>
+                <th>Contact</th>
+                <th>VIP Status</th>
+                <th>Lifetime Value</th>
+                <th>Trips</th>
+                <th>Preferences & Notes</th>
+                <th>Direct Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${AppState.customers.map(c => `
+                <tr>
+                  <td><strong>${c.name}</strong></td>
+                  <td>${c.city}</td>
+                  <td>
+                    <div>${c.phone}</div>
+                    <div style="font-size: 11px; color: var(--text-faint);">${c.email}</div>
+                  </td>
+                  <td><span class="status-pill status-confirmed">${c.tier}</span></td>
+                  <td class="tabular-nums" style="font-weight: 600; color: var(--brand);">${formatINR(c.spend)}</td>
+                  <td class="tabular-nums">${c.trips}</td>
+                  <td style="max-width: 260px; overflow: hidden; text-overflow: ellipsis;">${c.prefs}</td>
+                  <td>
+                    <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn btn-secondary btn-sm" style="color: #25D366;">WhatsApp</a>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 5: PACKAGES & LIVE MARGIN CALCULATOR
+       ------------------------------------------------------------- */
+    function renderPackagesTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Bespoke Packages & Live Margin Calculator</h1>
+            <p class="page-desc">Pre-packaged flagships and live profitability analysis.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-4);">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Package</th>
+                  <th>Destination</th>
+                  <th>Duration</th>
+                  <th>Cost Price</th>
+                  <th>Selling Price</th>
+                  <th>Gross Margin</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${AppState.packages.map(p => {
+                  const profit = p.sellPrice - p.costPrice;
+                  const marginPct = Math.round((profit / p.sellPrice) * 100);
+                  return `
+                    <tr>
+                      <td><strong>${p.name}</strong></td>
+                      <td>${p.destination}</td>
+                      <td>${p.days} Days</td>
+                      <td class="tabular-nums">${formatINR(p.costPrice)}</td>
+                      <td class="tabular-nums" style="font-weight: 600;">${formatINR(p.sellPrice)}</td>
+                      <td class="tabular-nums" style="color: var(--success); font-weight: 600;">
+                        ${formatINR(profit)} (${marginPct}%)
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel-card">
+            <h3 class="panel-title" style="margin-bottom: 4px;">Live Margin Simulator</h3>
+            <p class="panel-subtitle" style="margin-bottom: 16px;">Calculate agency commission before finalizing quote.</p>
+            
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Ground & Flight Cost (₹)</label>
+              <input type="number" id="sim-cost" class="form-control" value="180000">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Client Quoted Price (₹)</label>
+              <input type="number" id="sim-sell" class="form-control" value="280000">
+            </div>
+
+            <div style="background: var(--bg-subtle); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-base);">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span>Gross Profit:</span>
+                <strong id="sim-profit" class="tabular-nums" style="color: var(--success); font-size: 15px;">₹1,00,000</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Profit Margin:</span>
+                <strong id="sim-margin" class="tabular-nums" style="color: var(--brand); font-size: 15px;">35.7%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function attachPackageListeners() {
+      const costEl = document.getElementById('sim-cost');
+      const sellEl = document.getElementById('sim-sell');
+      const profitEl = document.getElementById('sim-profit');
+      const marginEl = document.getElementById('sim-margin');
+
+      const calc = () => {
+        const cost = Number(costEl.value) || 0;
+        const sell = Number(sellEl.value) || 1;
+        const profit = sell - cost;
+        const pct = ((profit / sell) * 100).toFixed(1);
+
+        profitEl.textContent = formatINR(profit);
+        marginEl.textContent = `${pct}%`;
+      };
+
+      costEl?.addEventListener('input', calc);
+      sellEl?.addEventListener('input', calc);
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 6: PAYMENTS & AGING
+       ------------------------------------------------------------- */
+    function renderPaymentsTab() {
+      const received = AppState.payments.filter(p => p.status === 'Received').reduce((s, p) => s + p.amount, 0);
+      const pending = AppState.payments.filter(p => p.status === 'Pending').reduce((s, p) => s + p.amount, 0);
+
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Payments Ledger & Receivables Aging (${AppState.payments.length} Transactions)</h1>
+            <p class="page-desc">Reconcile NEFT, Wire transfers, credit card links, and outstanding balances.</p>
+          </div>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Realized into Bank</span></div>
+            <div class="kpi-value tabular-nums" style="color: var(--success);">${formatINR(received)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Aging Outstanding (&lt; 30 Days)</span></div>
+            <div class="kpi-value tabular-nums" style="color: var(--warning);">${formatINR(pending)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-head"><span>Tax Collected (GST @ 5%)</span></div>
+            <div class="kpi-value tabular-nums">${formatINR(Math.round(received * 0.05))}</div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Booking Ref</th>
+                <th>Client</th>
+                <th>Payment Mode</th>
+                <th>Due / Paid Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${AppState.payments.map(p => `
+                <tr>
+                  <td class="tabular-nums font-bold">${p.id}</td>
+                  <td class="tabular-nums">${p.bookingId}</td>
+                  <td><strong>${p.client}</strong></td>
+                  <td>${p.method}</td>
+                  <td class="tabular-nums">${p.date}</td>
+                  <td class="tabular-nums" style="font-weight: 600;">${formatINR(p.amount)}</td>
+                  <td><span class="status-pill status-${p.status === 'Received' ? 'confirmed' : 'enquiry'}">${p.status}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 7: DEPARTURES CALENDAR
+       ------------------------------------------------------------- */
+    function renderCalendarTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Departures & Concierge Calendar</h1>
+            <p class="page-desc">Schedule of active departures, return transfers, and scheduled follow-ups.</p>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border-base); border: 1px solid var(--border-base); border-radius: var(--radius-md); overflow: hidden;">
+            ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => `
+              <div style="background: var(--bg-subtle); padding: 8px; text-align: center; font-weight: 600; font-size: 11px; color: var(--text-muted);">${day}</div>
+            `).join('')}
+            ${Array.from({ length: 31 }, (_, i) => {
+              const dayNum = i + 1;
+              const hasTrip = dayNum % 4 === 0;
+              return `
+                <div style="background: var(--bg-surface); min-height: 85px; padding: 6px; font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
+                  <span style="font-weight: 600; color: var(--text-faint);">${dayNum}</span>
+                  ${hasTrip ? `
+                    <div style="background: var(--brand-surface); color: var(--brand); padding: 2px 5px; border-radius: 3px; font-size: 10px; font-weight: 600;">
+                      🛫 Dep: ${DESTINATIONS[dayNum % DESTINATIONS.length]} (2)
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 8: REPORTS & MARGINS
+       ------------------------------------------------------------- */
+    function renderReportsTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Executive Financial & Margin Reports</h1>
+            <p class="page-desc">Comprehensive audited report exportable to CSV and PDF.</p>
+          </div>
+          <button class="btn btn-primary" onclick="window.print()">Print / PDF Export</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Curator / Agent</th>
+                <th>Bookings Managed</th>
+                <th>Gross Realized</th>
+                <th>Agency Commission (15%)</th>
+                <th>Performance Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${AGENTS.map((agent, i) => {
+                const count = AppState.bookings.filter(b => b.agent === agent).length;
+                const gross = count * 340000;
+                const commission = Math.round(gross * 0.15);
+                return `
+                  <tr>
+                    <td><strong>${agent}</strong></td>
+                    <td class="tabular-nums font-bold">${count} Bookings</td>
+                    <td class="tabular-nums">${formatINR(gross)}</td>
+                    <td class="tabular-nums" style="color: var(--success); font-weight: 600;">${formatINR(commission)}</td>
+                    <td><span class="status-pill status-confirmed">${85 - (i * 4)}% Win</span></td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    /* -------------------------------------------------------------
+       MODULE 9: SETTINGS
+       ------------------------------------------------------------- */
+    function renderSettingsTab() {
+      return `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Agency Settings & Governance</h1>
+            <p class="page-desc">GST credentials, team permissions, and persistent data reset.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+          <div class="panel-card">
+            <h3 class="panel-title" style="margin-bottom: 12px;">Agency Profile</h3>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Agency Legal Name</label>
+              <input type="text" class="form-control" id="cfg-agency-name" value="${AppState.agency.name}">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Headquarters City</label>
+              <input type="text" class="form-control" id="cfg-agency-city" value="${AppState.agency.city}">
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">GSTIN / Tax Identifier</label>
+              <input type="text" class="form-control" id="cfg-agency-gst" value="${AppState.agency.taxId}">
+            </div>
+            <button class="btn btn-primary" id="btn-save-agency-cfg">Save Agency Profile</button>
+          </div>
+
+          <div class="panel-card">
+            <h3 class="panel-title" style="margin-bottom: 12px;">Data Management & Reset</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Reset all 65+ bookings, 42 leads, and 32 VIP clients back to initial seeded values, or export state backup JSON.
+            </p>
+            <div style="display: flex; gap: var(--space-3);">
+              <button class="btn btn-secondary" onclick="exportDataJSON()">Export JSON Backup</button>
+              <button class="btn btn-danger" onclick="resetDemoData()">Reset All Demo Data</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function attachSettingsListeners() {
+      document.getElementById('btn-save-agency-cfg')?.addEventListener('click', () => {
+        AppState.agency.name = document.getElementById('cfg-agency-name').value;
+        AppState.agency.city = document.getElementById('cfg-agency-city').value;
+        AppState.agency.taxId = document.getElementById('cfg-agency-gst').value;
+        saveState();
+        showToast("Agency configuration saved.");
+      });
+    }
+
+    function resetDemoData() {
+      if (confirm("Reset all 65 bookings, 42 leads, and 32 customers back to factory seed?")) {
+        AppState = generateSeededData();
+        saveState();
+        renderCurrentTab();
+        showToast("Demo data re-seeded to factory state.");
+      }
+    }
+
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(AppState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `voyara_backup_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function exportToCSV(type) {
+      let csv = "";
+      if (type === 'bookings') {
+        csv = "ID,Customer,Destination,StartDate,EndDate,Amount,Status,Agent\n" +
+          AppState.bookings.map(b => `"${b.id}","${b.customer}","${b.destination}","${b.date}","${b.returnDate}",${b.amount},"${b.status}","${b.agent}"`).join("\n");
+      }
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `voyara_${type}_export.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    /* -------------------------------------------------------------
+       DRAWER LOGIC (NEW BOOKING / NEW LEAD)
+       ------------------------------------------------------------- */
+    function openNewBookingDrawer() {
+      const drawer = document.getElementById('main-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const title = document.getElementById('drawer-title');
+      const form = document.getElementById('drawer-form');
+
+      title.textContent = "Create High-Touch Booking";
+      form.innerHTML = `
+        <div class="form-group">
+          <label class="form-label">Client Name</label>
+          <input type="text" name="customer" class="form-control" required placeholder="e.g. Vikramaditya Singhania">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Primary Destination</label>
+            <select name="destination" class="form-control">
+              ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lead Assigned Curator</label>
+            <select name="agent" class="form-control">
+              ${AGENTS.map(a => `<option value="${a}">${a}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" name="date" class="form-control" required value="2026-11-15">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Return Date</label>
+            <input type="date" name="returnDate" class="form-control" required value="2026-11-22">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Agreed Gross Amount (₹)</label>
+            <input type="number" name="amount" class="form-control" required value="450000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Initial Booking Status</label>
+            <select name="status" class="form-control">
+              <option value="Confirmed">Confirmed</option>
+              <option value="Quoted">Quoted</option>
+              <option value="Paid">Paid</option>
+              <option value="Enquiry">Enquiry</option>
+            </select>
+          </div>
+        </div>
+      `;
+
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const newBooking = {
+          id: `BK-${Math.floor(9000 + Math.random() * 999)}`,
+          customer: fd.get('customer'),
+          destination: fd.get('destination'),
+          agent: fd.get('agent'),
+          date: fd.get('date'),
+          returnDate: fd.get('returnDate'),
+          amount: Number(fd.get('amount')),
+          status: fd.get('status'),
+          paid: 0,
+          guests: 2
+        };
+
+        AppState.bookings.unshift(newBooking);
+        saveState();
+        closeDrawer();
+        renderCurrentTab();
+        showToast(`Created booking ${newBooking.id} for ${newBooking.customer}`);
+      };
+
+      drawer.classList.add('active');
+      backdrop.classList.add('active');
+    }
+
+    function openNewLeadDrawer() {
+      const drawer = document.getElementById('main-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const title = document.getElementById('drawer-title');
+      const form = document.getElementById('drawer-form');
+
+      title.textContent = "Add Sales Prospect / Lead";
+      form.innerHTML = `
+        <div class="form-group">
+          <label class="form-label">Prospect Name</label>
+          <input type="text" name="name" class="form-control" required placeholder="e.g. Sameer Jain">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Destination of Interest</label>
+            <select name="destination" class="form-control">
+              ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Acquisition Channel</label>
+            <select name="source" class="form-control">
+              ${SOURCES.map(s => `<option value="${s}">${s}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Estimated Budget (₹)</label>
+            <input type="number" name="budget" class="form-control" required value="500000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Next Follow-Up</label>
+            <input type="date" name="followUp" class="form-control" required value="2026-10-25">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Requirements & Notes</label>
+          <textarea name="notes" class="form-control" rows="3" placeholder="Dietary restrictions, luxury suite preferences..."></textarea>
+        </div>
+      `;
+
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const newLead = {
+          id: `LD-${Math.floor(600 + Math.random() * 300)}`,
+          name: fd.get('name'),
+          destination: fd.get('destination'),
+          source: fd.get('source'),
+          budget: Number(fd.get('budget')),
+          stage: "New Lead",
+          followUp: fd.get('followUp'),
+          notes: fd.get('notes') || "VIP Consultation requested"
+        };
+
+        AppState.leads.unshift(newLead);
+        saveState();
+        closeDrawer();
+        renderCurrentTab();
+        showToast(`Prospect ${newLead.name} added to pipeline.`);
+      };
+
+      drawer.classList.add('active');
+      backdrop.classList.add('active');
+    }
+
+    function closeDrawer() {
+      document.getElementById('main-drawer').classList.remove('active');
+      document.getElementById('drawer-backdrop').classList.remove('active');
+    }
+
+    /* -------------------------------------------------------------
+       COMMAND PALETTE (CTRL+K)
+       ------------------------------------------------------------- */
+    function openCommandPalette() {
+      const modal = document.getElementById('command-modal');
+      const input = document.getElementById('command-query');
+      modal.classList.add('active');
+      input.value = '';
+      input.focus();
+      renderCommandResults('');
+    }
+
+    function closeCommandPalette() {
+      document.getElementById('command-modal').classList.remove('active');
+    }
+
+    function renderCommandResults(query) {
+      const list = document.getElementById('command-results-list');
+      const q = query.toLowerCase();
+
+      const commands = [
+        { title: "Go to Operations Overview", action: () => switchTab('overview'), icon: "📊" },
+        { title: "View Bookings Manifest", action: () => switchTab('bookings'), icon: "📑" },
+        { title: "View Leads Pipeline (Kanban)", action: () => switchTab('leads'), icon: "👥" },
+        { title: "Create New Booking", action: () => openNewBookingDrawer(), icon: "➕" },
+        { title: "Toggle Light / Dark Mode", action: () => toggleTheme(), icon: "🌓" },
+        { title: "Export All Data (JSON)", action: () => exportDataJSON(), icon: "💾" }
+      ];
+
+      // Add matching bookings & clients
+      AppState.bookings.slice(0, 30).forEach(b => {
+        if (b.customer.toLowerCase().includes(q) || b.id.toLowerCase().includes(q)) {
+          commands.push({
+            title: `Booking: ${b.customer} (${b.id}) - ${b.destination}`,
+            action: () => switchTab('bookings'),
+            icon: "✈️"
+          });
+        }
+      });
+
+      const filtered = commands.filter(c => c.title.toLowerCase().includes(q));
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div style="padding: 16px; text-align: center; color: var(--text-faint);">No matching commands found.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map((c, i) => `
+        <div class="command-item ${i === 0 ? 'selected' : ''}" onclick="executeCommand(${i})">
+          <span>${c.icon}</span>
+          <span>${c.title}</span>
+        </div>
+      `).join('');
+
+      window._currentCommands = filtered;
+    }
+
+    function executeCommand(idx) {
+      if (window._currentCommands && window._currentCommands[idx]) {
+        window._currentCommands[idx].action();
+        closeCommandPalette();
+      }
+    }
+
+    /* -------------------------------------------------------------
+       THEME & SHORTCUTS EVENT BINDINGS
+       ------------------------------------------------------------- */
+    function toggleTheme() {
+      AppState.theme = AppState.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', AppState.theme);
+      saveState();
+      showToast(`Switched to ${AppState.theme} theme`);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      }
+      if (e.key === 'Escape') {
+        closeDrawer();
+        closeCommandPalette();
+      }
+      if (e.key.toLowerCase() === 'n' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        openNewBookingDrawer();
+      }
+    });
+
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.addEventListener('click', () => switchTab(el.dataset.tab));
+    });
+
+    document.getElementById('btn-open-command')?.addEventListener('click', openCommandPalette);
+    document.getElementById('btn-quick-new-booking')?.addEventListener('click', openNewBookingDrawer);
+    document.getElementById('btn-close-drawer')?.addEventListener('click', closeDrawer);
+    document.getElementById('btn-cancel-drawer')?.addEventListener('click', closeDrawer);
+    document.getElementById('drawer-backdrop')?.addEventListener('click', closeDrawer);
+    document.getElementById('btn-theme-toggle')?.addEventListener('click', toggleTheme);
+
+    document.getElementById('btn-toggle-sidebar')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    });
+
+    document.getElementById('command-query')?.addEventListener('input', (e) => {
+      renderCommandResults(e.target.value);
+    });
+
+    document.getElementById('select-role-persona')?.addEventListener('change', (e) => {
+      AppState.currentRole = e.target.value;
+      saveState();
+      showToast(`Role switched to: ${AppState.currentRole}`);
+      renderCurrentTab();
+    });
+
+    // Mount
+    document.documentElement.setAttribute('data-theme', AppState.theme || 'light');
+    document.getElementById('select-role-persona').value = AppState.currentRole || 'Admin';
+    renderCurrentTab();
+  </script>
+</body>
+</html>

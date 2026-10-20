@@ -6,7 +6,7 @@
   <title>Voyara Luxury Travel — Operations & Revenue Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     /* -------------------------------------------------------------
@@ -24,7 +24,6 @@
       --space-5: 20px;
       --space-6: 24px;
       --space-8: 32px;
-      --space-10: 40px;
 
       /* Radii */
       --radius-sm: 4px;
@@ -37,7 +36,7 @@
       --trans-fast: 140ms cubic-bezier(0.16, 1, 0.3, 1);
       --trans-base: 220ms cubic-bezier(0.16, 1, 0.3, 1);
 
-      /* LIGHT THEME (Calm Neutral Base + Deep Teal Brand) */
+      /* LIGHT THEME */
       --bg-app: #F8F9FA;
       --bg-surface: #FFFFFF;
       --bg-subtle: #F1F3F5;
@@ -87,7 +86,7 @@
       --topbar-height: 56px;
     }
 
-    /* DARK THEME (Linear Dark Palette) */
+    /* DARK THEME */
     [data-theme="dark"] {
       --bg-app: #0B0E11;
       --bg-surface: #12161A;
@@ -132,7 +131,6 @@
       --shadow-overlay: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
     }
 
-    /* Base Reset & Typography */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -167,7 +165,6 @@
       letter-spacing: -0.02em;
     }
 
-    /* Layout Frame */
     #app {
       display: flex;
       width: 100vw;
@@ -519,6 +516,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: var(--space-6);
+      gap: var(--space-4);
+      flex-wrap: wrap;
     }
 
     .page-title {
@@ -625,14 +624,6 @@
       gap: 2px;
     }
 
-    .trend-down {
-      color: var(--danger);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-    }
-
     /* Chart Rows */
     .chart-grid {
       display: grid;
@@ -660,6 +651,8 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: var(--space-4);
+      gap: var(--space-3);
+      flex-wrap: wrap;
     }
 
     .panel-title {
@@ -674,7 +667,7 @@
     }
 
     /* -------------------------------------------------------------
-       TABLES (Linear compact style)
+       TABLES (Linear compact style + Pagination)
        ------------------------------------------------------------- */
     .table-container {
       background: var(--bg-surface);
@@ -713,6 +706,7 @@
       display: flex;
       align-items: center;
       gap: var(--space-2);
+      flex-wrap: wrap;
     }
 
     table {
@@ -793,6 +787,17 @@
       border: 1px solid var(--border-base);
     }
 
+    .table-pagination {
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--border-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-subtle);
+    }
+
     /* -------------------------------------------------------------
        KANBAN CRM (Drag & Drop Leads)
        ------------------------------------------------------------- */
@@ -866,10 +871,6 @@
     .kanban-card:hover {
       border-color: var(--border-strong);
       box-shadow: var(--shadow-md);
-    }
-
-    .kanban-card.overdue {
-      border-left: 3px solid var(--danger);
     }
 
     .card-top {
@@ -972,7 +973,6 @@
       background: var(--bg-subtle);
     }
 
-    /* Form Fields */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -1004,12 +1004,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--space-3);
-    }
-
-    .error-msg {
-      font-size: 11px;
-      color: var(--danger);
-      display: none;
     }
 
     /* Command Palette Modal */
@@ -1084,9 +1078,7 @@
       color: var(--brand);
     }
 
-    /* -------------------------------------------------------------
-       TOAST ALERTS
-       ------------------------------------------------------------- */
+    /* Toast Alerts */
     #toast-container {
       position: fixed;
       bottom: var(--space-6);
@@ -1125,28 +1117,6 @@
       cursor: pointer;
       text-decoration: underline;
     }
-
-    /* Print Stylesheet for Invoices & Reports */
-    @media print {
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        overflow: visible !important;
-      }
-      #sidebar, #topbar, .drawer-backdrop, .no-print {
-        display: none !important;
-      }
-      #app, #main-stack, #content-area {
-        height: auto !important;
-        overflow: visible !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-      .panel-card, .table-container {
-        border: 1px solid #ccc !important;
-        box-shadow: none !important;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1161,7 +1131,7 @@
             <span class="brand-sub">Mumbai HQ</span>
           </div>
         </div>
-        <button class="icon-btn no-print" id="btn-toggle-sidebar" title="Toggle Sidebar (Cmd+B)">
+        <button class="icon-btn no-print" id="btn-toggle-sidebar" title="Toggle Sidebar">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" /></svg>
         </button>
       </div>
@@ -1187,7 +1157,7 @@
             </li>
             <li class="nav-item" data-tab="customers">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-              <span>Customers</span>
+              <span>VIP Clients</span>
             </li>
             <li class="nav-item" data-tab="packages">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
@@ -1222,10 +1192,10 @@
 
       <div class="sidebar-footer">
         <div class="role-indicator">
-          <span>Active Persona:</span>
+          <span>Active Role:</span>
           <select id="select-role-persona" class="form-control" style="padding: 2px 6px; font-size: 11px;">
-            <option value="Admin">Admin (Owner)</option>
-            <option value="Sales">Sales Agent</option>
+            <option value="Admin">Admin (Full Access)</option>
+            <option value="Sales">Sales Curator</option>
             <option value="Accountant">Accountant</option>
           </select>
         </div>
@@ -1239,20 +1209,20 @@
         <div class="topbar-left">
           <div class="search-trigger" id="btn-open-command">
             <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
-            <span>Search bookings, leads, clients (Ctrl+K)...</span>
+            <span>Search 60+ bookings, leads, clients (Ctrl+K)...</span>
             <span class="kbd-shortcut">⌘K</span>
           </div>
         </div>
 
         <div class="topbar-right">
           <!-- Notification Dropdown -->
-          <button class="icon-btn" id="btn-notifications" title="Notifications">
+          <button class="icon-btn" id="btn-notifications" title="System Notifications">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
             <span class="badge-dot"></span>
           </button>
 
           <!-- Theme Toggle -->
-          <button class="icon-btn" id="btn-theme-toggle" title="Toggle Theme (Ctrl+T)">
+          <button class="icon-btn" id="btn-theme-toggle" title="Toggle Theme">
             <svg id="theme-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
           </button>
 
@@ -1265,13 +1235,11 @@
       </header>
 
       <!-- DYNAMIC CONTENT VIEWPORT -->
-      <main id="content-area">
-        <!-- Rendered via renderCurrentTab() -->
-      </main>
+      <main id="content-area"></main>
     </div>
   </div>
 
-  <!-- SLIDE-OVER DRAWER FOR BOOKING / LEAD CREATION -->
+  <!-- SLIDE-OVER DRAWER -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
   <aside class="drawer" id="main-drawer">
     <div class="drawer-header">
@@ -1280,9 +1248,7 @@
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
     </div>
-    <form id="drawer-form" class="drawer-body">
-      <!-- Injected dynamically based on mode (Booking, Lead, Package) -->
-    </form>
+    <form id="drawer-form" class="drawer-body"></form>
     <div class="drawer-footer">
       <button type="button" class="btn btn-secondary" id="btn-cancel-drawer">Cancel</button>
       <button type="submit" form="drawer-form" class="btn btn-primary" id="btn-save-drawer">Save Record</button>
@@ -1305,79 +1271,180 @@
 
   <script>
     /* -------------------------------------------------------------
-       APPLICATION ARCHITECTURE & REACTIVE STATE STORE
+       HIGH-FIDELITY REALISTIC DATA GENERATOR (60+ BOOKINGS, 40+ LEADS, 30+ CLIENTS)
        ------------------------------------------------------------- */
-    const STORAGE_KEY = 'voyara_enterprise_store_v1';
+    const STORAGE_KEY = 'voyara_prod_admin_v2';
 
-    // Default Seed Dataset (Indian High-Net-Worth Travelers & Destinations)
-    const SEED_DATA = {
-      agency: {
-        name: "Voyara Luxury Journeys",
-        city: "Mumbai",
-        currency: "₹",
-        gstRate: 5,
-        owner: "Alok Kumar Chaudhary",
-        taxId: "27AABCV1234F1Z8"
-      },
-      currentRole: "Admin", // 'Admin', 'Sales', 'Accountant'
-      theme: "light",
-      activeTab: "overview",
-      dateFilter: "30D",
+    const INDIAN_FIRST_NAMES = ["Vikramaditya", "Ananya", "Rohan", "Meera", "Kabir", "Priya", "Sunita", "Aarav", "Neha", "Aditya", "Tara", "Manish", "Zoya", "Karan", "Pooja", "Arjun", "Simran", "Rajesh", "Kavita", "Siddharth", "Nisha", "Harsh", "Deepika", "Devendra", "Tanvi", "Gautam", "Rhea", "Naveen", "Smriti", "Kunal", "Alok", "Isha"];
+    const INDIAN_LAST_NAMES = ["Singhania", "Iyer", "Sharma", "Malhotra", "Mehta", "Reddy", "Kapoor", "Verma", "Godrej", "Khosla", "Chawla", "Akhtar", "Bajaj", "Bansal", "Goenka", "Jindal", "Birla", "Ambani", "Tata", "Murthy", "Nambiar", "Deshmukh", "Chaudhary", "Oberoi", "Bhatia", "Grover", "Poddar", "Piramal"];
+    const INDIAN_CITIES = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Jaipur", "Chandigarh"];
+    const DESTINATIONS = ["Kashmir", "Rajasthan", "Maldives", "Switzerland", "Dubai", "Bali", "Goa", "Manali", "Ladakh", "Thailand"];
+    const AGENTS = ["Pooja Roy", "Amitabh Sen", "Kavita Nair", "Vikram Patel", "Rhea Kapoor"];
+    const STATUSES = ["Confirmed", "Paid", "Quoted", "Travelled", "Enquiry", "Cancelled"];
+    const SOURCES = ["Instagram Luxury", "HNI Referral", "Google Search", "WhatsApp Concierge", "Website Direct", "Private Jet Lounge"];
 
-      packages: [
-        { id: "PKG-01", name: "Kashmir Gulmarg Powder & Chalet", destination: "Kashmir", days: 6, costPrice: 120000, sellPrice: 210000, seats: 12, inclusions: ["Private Heli-ski", "The Khyber Suite", "Pashmina Concierge"] },
-        { id: "PKG-02", name: "Royal Rajasthan Heritage Haveli Trail", destination: "Rajasthan", days: 8, costPrice: 210000, sellPrice: 380000, seats: 8, inclusions: ["Umaid Bhawan Stay", "Vintage Car Rally", "Private Desert Feast"] },
-        { id: "PKG-03", name: "Kerala Backwater Houseboat & Ayurveda", destination: "Kerala", days: 5, costPrice: 65000, sellPrice: 135000, seats: 15, inclusions: ["Private Solar Barge", "Michelin Chef", "Spice Trail Guide"] },
-        { id: "PKG-04", name: "Ladakh High Passes Nubra Expedition", destination: "Ladakh", days: 7, costPrice: 95000, sellPrice: 175000, seats: 10, inclusions: ["Oxygen-equipped Glamping", "Monastery Lamas Access", "Pangong Camp"] },
-        { id: "PKG-05", name: "Maldives Private Overwater Retreat", destination: "Maldives", days: 5, costPrice: 380000, sellPrice: 620000, seats: 6, inclusions: ["Seaplane Escort", "Private Lagoon Slide Villa", "Coral Reef Tour"] },
-        { id: "PKG-06", name: "Dubai Desert Palm & Heli Flight", destination: "Dubai", days: 5, costPrice: 180000, sellPrice: 310000, seats: 14, inclusions: ["Burj Al Arab Suite", "Dune Buggy Safari", "Private Yacht Sunset"] },
-        { id: "PKG-07", name: "Bali Secret Uluwatu Cliff Sanctuary", destination: "Bali", days: 6, costPrice: 110000, sellPrice: 195000, seats: 16, inclusions: ["Cliff-edge Infinity Villa", "Temple Blessing", "Helicopter Transfer"] },
-        { id: "PKG-08", name: "Manali Private Cedar Chalet Winter", destination: "Manali", days: 4, costPrice: 48000, sellPrice: 95000, seats: 20, inclusions: ["Private Log Fire", "Solang Snowmobiling", "Personal Butler"] },
-        { id: "PKG-09", name: "Goa Morjim Portuguese Estate Yacht", destination: "Goa", days: 4, costPrice: 75000, sellPrice: 145000, seats: 18, inclusions: ["Heritage Colonial Villa", "42ft Catamaran Charter", "Chef Table"] },
-        { id: "PKG-10", name: "Swiss Alps Zermatt Glacier Express", destination: "Switzerland", days: 8, costPrice: 420000, sellPrice: 750000, seats: 6, inclusions: ["First Class Rail", "Matterhorn View Chalet", "Ski Pass & Guide"] },
-        { id: "PKG-11", name: "Andaman Havelock Secluded Scuba", destination: "Andaman", days: 6, costPrice: 92000, sellPrice: 168000, seats: 12, inclusions: ["Speedboat Charters", "Private Beachfront Villa", "PADI Master"] },
-        { id: "PKG-12", name: "Thailand Koh Samui Private Catamaran", destination: "Thailand", days: 5, costPrice: 130000, sellPrice: 225000, seats: 10, inclusions: ["Oceanfront Pool Villa", "Sunset Sailing", "Thai Wellness Retreat"] }
-      ],
+    function generateSeededData() {
+      // 1. Generate 32 Realistic VIP Customers
+      const customers = [];
+      for (let i = 0; i < 32; i++) {
+        const first = INDIAN_FIRST_NAMES[i % INDIAN_FIRST_NAMES.length];
+        const last = INDIAN_LAST_NAMES[i % INDIAN_LAST_NAMES.length];
+        const name = `${first} ${last}`;
+        const city = INDIAN_CITIES[i % INDIAN_CITIES.length];
+        const trips = (i % 6) + 2;
+        const spend = trips * (250000 + (i * 45000));
+        const tier = spend > 2500000 ? "Diamond VIP" : spend > 1200000 ? "Platinum VIP" : "Gold VIP";
+        customers.push({
+          id: `CUST-${101 + i}`,
+          name,
+          city,
+          email: `${first.toLowerCase()}.${last.toLowerCase()}@${i % 2 === 0 ? 'corp.in' : 'familyoffice.com'}`,
+          phone: `+91 ${98000 + (i * 57)} ${10000 + (i * 243)}`,
+          tier,
+          spend,
+          trips,
+          prefs: i % 3 === 0 ? "Strict Jain cuisine, private villa only" : i % 3 === 1 ? "Lie-flat suites, quiet luxury, champagne welcome" : "Michelin dining, snow sports, private helicopter"
+        });
+      }
 
-      customers: [
-        { id: "CUST-101", name: "Dr. Vikramaditya Singhania", city: "Mumbai", email: "v.singhania@apexcardio.in", phone: "+91 98201 44521", tier: "Platinum VIP", spend: 1840000, trips: 5, prefs: "Strict Jain cuisine, first-class window seats" },
-        { id: "CUST-102", name: "Ananya Iyer", city: "Bangalore", email: "ananya.iyer@technova.io", phone: "+91 97410 88219", tier: "Gold VIP", spend: 950000, trips: 3, prefs: "High-floor suites, quiet luxury, eco-resorts" },
-        { id: "CUST-103", name: "Rohan & Meera Sharma", city: "Delhi", email: "rohan.sharma@indiacapital.com", phone: "+91 98110 33412", tier: "Diamond VIP", spend: 3200000, trips: 8, prefs: "Private aviation, Michelin dining, mountain escapes" },
-        { id: "CUST-104", name: "Kabir Malhotra", city: "Gurugram", email: "k.malhotra@dlfgroup.in", phone: "+91 99991 23456", tier: "Gold VIP", spend: 780000, trips: 2, prefs: "Snow sports, fast cars, private driver" },
-        { id: "CUST-105", name: "Priya Mehta", city: "Ahmedabad", email: "priya@mehtadiamonds.com", phone: "+91 98250 67123", tier: "Platinum VIP", spend: 1450000, trips: 4, prefs: "Spa treatments, private catamaran, beachfront" },
-        { id: "CUST-106", name: "Sunita Reddy", city: "Hyderabad", email: "sunita@reddypharma.co", phone: "+91 98490 12890", tier: "Diamond VIP", spend: 2900000, trips: 7, prefs: "Heritage palaces, private royal historians" }
-      ],
+      // 2. Generate 65 Realistic Bookings across 12 months & next 3 months
+      const bookings = [];
+      const baseDates = [
+        "2026-01-12", "2026-02-04", "2026-02-18", "2026-03-10", "2026-03-24",
+        "2026-04-05", "2026-04-20", "2026-05-02", "2026-05-15", "2026-05-28",
+        "2026-06-08", "2026-06-22", "2026-07-04", "2026-07-19", "2026-08-02",
+        "2026-08-16", "2026-09-05", "2026-09-20", "2026-10-02", "2026-10-14",
+        "2026-10-22", "2026-11-05", "2026-11-12", "2026-11-20", "2026-12-05",
+        "2026-12-18", "2026-12-28", "2027-01-08", "2027-01-22", "2027-02-14"
+      ];
 
-      bookings: [
-        { id: "BK-8841", customer: "Dr. Vikramaditya Singhania", destination: "Kashmir", date: "2026-11-12", returnDate: "2026-11-18", amount: 420000, status: "Confirmed", agent: "Pooja Roy", paid: 420000, guests: 2 },
-        { id: "BK-8842", customer: "Ananya Iyer", destination: "Maldives", date: "2026-11-20", returnDate: "2026-11-25", amount: 620000, status: "Paid", agent: "Amitabh Sen", paid: 620000, guests: 2 },
-        { id: "BK-8843", customer: "Rohan & Meera Sharma", destination: "Switzerland", date: "2026-12-05", returnDate: "2026-12-13", amount: 1500000, status: "Confirmed", agent: "Pooja Roy", paid: 750000, guests: 4 },
-        { id: "BK-8844", customer: "Kabir Malhotra", destination: "Manali", date: "2026-10-25", returnDate: "2026-10-29", amount: 190000, status: "Travelled", agent: "Kavita Nair", paid: 190000, guests: 2 },
-        { id: "BK-8845", customer: "Priya Mehta", destination: "Goa", date: "2026-11-01", returnDate: "2026-11-05", amount: 290000, status: "Confirmed", agent: "Amitabh Sen", paid: 150000, guests: 4 },
-        { id: "BK-8846", customer: "Sunita Reddy", destination: "Rajasthan", date: "2026-11-15", returnDate: "2026-11-23", amount: 760000, status: "Quoted", agent: "Pooja Roy", paid: 0, guests: 2 },
-        { id: "BK-8847", customer: "Vivek Oberoi", destination: "Dubai", date: "2026-11-28", returnDate: "2026-12-03", amount: 620000, status: "Enquiry", agent: "Kavita Nair", paid: 0, guests: 3 },
-        { id: "BK-8848", customer: "Neha Deshmukh", destination: "Kerala", date: "2026-10-14", returnDate: "2026-10-19", amount: 270000, status: "Cancelled", agent: "Amitabh Sen", paid: 0, guests: 2 }
-      ],
+      for (let i = 0; i < 65; i++) {
+        const cust = customers[i % customers.length];
+        const dest = DESTINATIONS[i % DESTINATIONS.length];
+        const agent = AGENTS[i % AGENTS.length];
+        const dateStr = baseDates[i % baseDates.length];
+        const dateObj = new Date(dateStr);
+        dateObj.setDate(dateObj.getDate() + 6);
+        const returnDateStr = dateObj.toISOString().split('T')[0];
 
-      leads: [
-        { id: "LD-501", name: "Suresh Narayanan", source: "Instagram Luxury", destination: "Maldives", budget: 700000, stage: "New Lead", followUp: "2026-10-22", notes: "Anniversary surprise; wants overwater villa with private pool" },
-        { id: "LD-502", name: "Tara Khosla", source: "Google Search", destination: "Kashmir", budget: 350000, stage: "Contacted", followUp: "2026-10-21", notes: "Ski family trip, 4 adults, requires English instructor" },
-        { id: "LD-503", name: "Aditya Godrej", source: "HNI Referral", destination: "Switzerland", budget: 1400000, stage: "Proposal Sent", followUp: "2026-10-23", notes: "Sent luxury chalet brochure with scenic rail pass options" },
-        { id: "LD-504", name: "Manish Chawla", source: "WhatsApp Concierge", destination: "Rajasthan", budget: 500000, stage: "Negotiation", followUp: "2026-10-19", notes: "Overdue discussion on palace upgrades in Udaipur" },
-        { id: "LD-505", name: "Zoya Akhtar", source: "Website Direct", destination: "Bali", budget: 400000, stage: "Won", followUp: "2026-10-25", notes: "Converted! Booking created for cliffside villa" }
-      ],
+        const amount = 180000 + ((i * 37000) % 950000);
+        const status = i < 8 ? "Confirmed" : i < 18 ? "Paid" : i < 30 ? "Travelled" : i < 48 ? "Confirmed" : i < 58 ? "Quoted" : i < 62 ? "Enquiry" : "Cancelled";
+        const paid = status === "Paid" ? amount : status === "Confirmed" ? Math.round(amount * 0.6) : status === "Travelled" ? amount : 0;
 
-      payments: [
-        { id: "INV-2026-091", bookingId: "BK-8841", client: "Dr. Vikramaditya Singhania", amount: 420000, status: "Received", date: "2026-10-10", method: "Bank Transfer (NEFT)" },
-        { id: "INV-2026-092", bookingId: "BK-8842", client: "Ananya Iyer", amount: 620000, status: "Received", date: "2026-10-15", method: "Credit Card (Amex)" },
-        { id: "INV-2026-093", bookingId: "BK-8843", client: "Rohan & Meera Sharma", amount: 750000, status: "Received", date: "2026-10-18", method: "Wire (RTGS)" },
-        { id: "INV-2026-094", bookingId: "BK-8843", client: "Rohan & Meera Sharma", amount: 750000, status: "Pending", date: "2026-11-20", method: "Payment Link" },
-        { id: "INV-2026-095", bookingId: "BK-8845", client: "Priya Mehta", amount: 140000, status: "Pending", date: "2026-10-28", method: "UPI / QR" }
-      ]
-    };
+        bookings.push({
+          id: `BK-${8801 + i}`,
+          customer: cust.name,
+          destination: dest,
+          date: dateStr,
+          returnDate: returnDateStr,
+          amount,
+          status,
+          agent,
+          paid,
+          guests: (i % 3) + 2
+        });
+      }
+
+      // 3. Generate 42 Realistic Leads
+      const leads = [];
+      const stages = ["New Lead", "Contacted", "Proposal Sent", "Negotiation", "Won"];
+      for (let i = 0; i < 42; i++) {
+        const first = INDIAN_FIRST_NAMES[(i + 7) % INDIAN_FIRST_NAMES.length];
+        const last = INDIAN_LAST_NAMES[(i + 5) % INDIAN_LAST_NAMES.length];
+        const dest = DESTINATIONS[(i + 2) % DESTINATIONS.length];
+        const stage = stages[i % stages.length];
+        const budget = 250000 + ((i * 45000) % 1200000);
+        const dayOffset = (i % 14) - 4;
+        const d = new Date();
+        d.setDate(d.getDate() + dayOffset);
+        const followUp = d.toISOString().split('T')[0];
+
+        leads.push({
+          id: `LD-${501 + i}`,
+          name: `${first} ${last}`,
+          destination: dest,
+          source: SOURCES[i % SOURCES.length],
+          budget,
+          stage,
+          followUp,
+          notes: i % 2 === 0 ? "Anniversary getaway; requested private infinity pool villa" : "Family reunion (4 adults, 2 kids); wants ski passes and English butler"
+        });
+      }
+
+      // 4. Generate 12 Flagship Packages
+      const packages = [
+        { id: "PKG-01", name: "Kashmir Gulmarg Powder & Private Chalet", destination: "Kashmir", days: 6, costPrice: 120000, sellPrice: 210000, seats: 12 },
+        { id: "PKG-02", name: "Royal Rajasthan Heritage Haveli Trail", destination: "Rajasthan", days: 8, costPrice: 210000, sellPrice: 380000, seats: 8 },
+        { id: "PKG-03", name: "Kerala Backwater Houseboat & Ayurveda", destination: "Kerala", days: 5, costPrice: 65000, sellPrice: 135000, seats: 15 },
+        { id: "PKG-04", name: "Ladakh High Passes Nubra Expedition", destination: "Ladakh", days: 7, costPrice: 95000, sellPrice: 175000, seats: 10 },
+        { id: "PKG-05", name: "Maldives Private Overwater Retreat", destination: "Maldives", days: 5, costPrice: 380000, sellPrice: 620000, seats: 6 },
+        { id: "PKG-06", name: "Dubai Desert Palm & Heli Flight", destination: "Dubai", days: 5, costPrice: 180000, sellPrice: 310000, seats: 14 },
+        { id: "PKG-07", name: "Bali Secret Uluwatu Cliff Sanctuary", destination: "Bali", days: 6, costPrice: 110000, sellPrice: 195000, seats: 16 },
+        { id: "PKG-08", name: "Manali Private Cedar Chalet Winter", destination: "Manali", days: 4, costPrice: 48000, sellPrice: 95000, seats: 20 },
+        { id: "PKG-09", name: "Goa Morjim Portuguese Estate Yacht", destination: "Goa", days: 4, costPrice: 75000, sellPrice: 145000, seats: 18 },
+        { id: "PKG-10", name: "Swiss Alps Zermatt Glacier Express", destination: "Switzerland", days: 8, costPrice: 420000, sellPrice: 750000, seats: 6 },
+        { id: "PKG-11", name: "Andaman Havelock Secluded Scuba", destination: "Andaman", days: 6, costPrice: 92000, sellPrice: 168000, seats: 12 },
+        { id: "PKG-12", name: "Thailand Koh Samui Private Catamaran", destination: "Thailand", days: 5, costPrice: 130000, sellPrice: 225000, seats: 10 }
+      ];
+
+      // 5. Generate Payments Ledger
+      const payments = [];
+      bookings.forEach((b, idx) => {
+        if (b.paid > 0) {
+          payments.push({
+            id: `INV-2026-${100 + idx}`,
+            bookingId: b.id,
+            client: b.customer,
+            amount: b.paid,
+            status: "Received",
+            date: b.date,
+            method: idx % 3 === 0 ? "Bank Transfer (NEFT)" : idx % 3 === 1 ? "Amex Centurion" : "RTGS Wire"
+          });
+        }
+        if (b.amount > b.paid && b.status !== 'Cancelled') {
+          payments.push({
+            id: `INV-2026-${500 + idx}`,
+            bookingId: b.id,
+            client: b.customer,
+            amount: b.amount - b.paid,
+            status: "Pending",
+            date: b.returnDate,
+            method: "Payment Link / Due"
+          });
+        }
+      });
+
+      return {
+        agency: {
+          name: "Voyara Luxury Journeys",
+          city: "Mumbai",
+          currency: "₹",
+          gstRate: 5,
+          owner: "Alok Kumar Chaudhary",
+          taxId: "27AABCV1234F1Z8"
+        },
+        currentRole: "Admin",
+        theme: "light",
+        activeTab: "overview",
+        dateFilter: "30D",
+        bookingsPage: 1,
+        bookingsPerPage: 10,
+        sortColumn: "id",
+        sortDirection: "desc",
+        bookings,
+        leads,
+        customers,
+        packages,
+        payments
+      };
+    }
 
     // Initialize Store
-    let AppState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || SEED_DATA;
+    let AppState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!AppState || !AppState.bookings || AppState.bookings.length < 50) {
+      AppState = generateSeededData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
+    }
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
@@ -1393,7 +1460,7 @@
     }
 
     /* -------------------------------------------------------------
-       TOAST SYSTEM WITH UNDO
+       TOAST ALERTS
        ------------------------------------------------------------- */
     function showToast(message, undoAction = null) {
       const container = document.getElementById('toast-container');
@@ -1421,22 +1488,7 @@
     }
 
     /* -------------------------------------------------------------
-       ROLE-BASED PERMISSION ENFORCER
-       ------------------------------------------------------------- */
-    function canEditFinancials() {
-      return AppState.currentRole === 'Admin' || AppState.currentRole === 'Accountant';
-    }
-
-    function canManageBookings() {
-      return AppState.currentRole === 'Admin' || AppState.currentRole === 'Sales';
-    }
-
-    function canModifySettings() {
-      return AppState.currentRole === 'Admin';
-    }
-
-    /* -------------------------------------------------------------
-       TAB ROUTER & VIEWS
+       ROUTER & TAB SWITCHING
        ------------------------------------------------------------- */
     function switchTab(tabName) {
       AppState.activeTab = tabName;
@@ -1496,26 +1548,21 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 1: OVERVIEW & INTELLIGENCE
+       MODULE 1: OVERVIEW TAB
        ------------------------------------------------------------- */
     function renderOverviewTab() {
-      const totalRevenue = AppState.bookings
-        .filter(b => b.status !== 'Cancelled')
-        .reduce((sum, b) => sum + b.amount, 0);
-
-      const totalReceived = AppState.payments
-        .filter(p => p.status === 'Received')
-        .reduce((sum, p) => sum + p.amount, 0);
-
-      const outstanding = totalRevenue - totalReceived;
-      const confirmedBookings = AppState.bookings.filter(b => b.status === 'Confirmed' || b.status === 'Paid').length;
-      const conversionRate = Math.round((confirmedBookings / (AppState.leads.length + AppState.bookings.length || 1)) * 100);
+      const validBookings = AppState.bookings.filter(b => b.status !== 'Cancelled');
+      const totalRevenue = validBookings.reduce((sum, b) => sum + b.amount, 0);
+      const totalReceived = AppState.payments.filter(p => p.status === 'Received').reduce((sum, p) => sum + p.amount, 0);
+      const outstanding = AppState.payments.filter(p => p.status === 'Pending').reduce((sum, p) => sum + p.amount, 0);
+      const confirmedCount = AppState.bookings.filter(b => b.status === 'Confirmed' || b.status === 'Paid').length;
+      const conversionRate = Math.round((confirmedCount / (AppState.leads.length + AppState.bookings.length || 1)) * 100);
 
       return `
         <div class="page-header">
           <div>
             <h1 class="page-title">Executive Operations Overview</h1>
-            <p class="page-desc">High-level sales velocity, cash flow aging, and destination volume.</p>
+            <p class="page-desc">High-level sales velocity across ${AppState.bookings.length} tracked journeys and ₹${(totalRevenue / 10000000).toFixed(2)} Cr gross value.</p>
           </div>
           <div class="filter-pills">
             <button class="pill-btn ${AppState.dateFilter === '7D' ? 'active' : ''}" onclick="setDateFilter('7D')">7D</button>
@@ -1527,60 +1574,33 @@
 
         <div class="kpi-grid">
           <div class="kpi-card">
-            <div class="kpi-head">
-              <span>Gross Gross Revenue</span>
-              <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
+            <div class="kpi-head"><span>Gross Booked Value</span></div>
             <div class="kpi-value tabular-nums">${formatINR(totalRevenue)}</div>
-            <div class="kpi-footer">
-              <span class="trend-up">↑ 18.4%</span>
-              <span style="color: var(--text-faint)">vs previous period</span>
-            </div>
+            <div class="kpi-footer"><span class="trend-up">↑ 24.8%</span><span style="color: var(--text-faint)">across ${validBookings.length} bookings</span></div>
           </div>
-
           <div class="kpi-card">
-            <div class="kpi-head">
-              <span>Cash Realized</span>
-              <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            </div>
-            <div class="kpi-value tabular-nums">${formatINR(totalReceived)}</div>
-            <div class="kpi-footer">
-              <span class="trend-up">↑ 12.1%</span>
-              <span style="color: var(--text-faint)">via NEFT/Cards</span>
-            </div>
+            <div class="kpi-head"><span>Realized Cash (Bank)</span></div>
+            <div class="kpi-value tabular-nums" style="color: var(--success);">${formatINR(totalReceived)}</div>
+            <div class="kpi-footer"><span class="trend-up">↑ 19.3%</span><span style="color: var(--text-faint)">reconciled</span></div>
           </div>
-
           <div class="kpi-card">
-            <div class="kpi-head">
-              <span>Pending Receivables</span>
-              <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
-            </div>
+            <div class="kpi-head"><span>Pending Receivables</span></div>
             <div class="kpi-value tabular-nums" style="color: var(--warning);">${formatINR(outstanding)}</div>
-            <div class="kpi-footer">
-              <span style="color: var(--text-faint)">Across 3 open bookings</span>
-            </div>
+            <div class="kpi-footer"><span style="color: var(--text-faint)">due in next 30 days</span></div>
           </div>
-
           <div class="kpi-card">
-            <div class="kpi-head">
-              <span>Lead Conversion</span>
-              <svg style="width: 15px; height: 15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>
-            </div>
+            <div class="kpi-head"><span>Conversion Rate</span></div>
             <div class="kpi-value tabular-nums">${conversionRate}%</div>
-            <div class="kpi-footer">
-              <span class="trend-up">↑ 4.2%</span>
-              <span style="color: var(--text-faint)">industry benchmark 22%</span>
-            </div>
+            <div class="kpi-footer"><span class="trend-up">↑ 6.4%</span><span style="color: var(--text-faint)">from 42 open leads</span></div>
           </div>
         </div>
 
-        <!-- Charts Grid -->
         <div class="chart-grid">
           <div class="panel-card">
             <div class="panel-head">
               <div>
-                <h3 class="panel-title">Revenue Trajectory</h3>
-                <p class="panel-subtitle">Monthly booked volume in Lakhs (₹)</p>
+                <h3 class="panel-title">Monthly Revenue Momentum</h3>
+                <p class="panel-subtitle">Gross booking inflow in Lakhs (₹)</p>
               </div>
             </div>
             <div style="height: 250px;">
@@ -1591,8 +1611,8 @@
           <div class="panel-card">
             <div class="panel-head">
               <div>
-                <h3 class="panel-title">Destination Popularity</h3>
-                <p class="panel-subtitle">Booking count by primary region</p>
+                <h3 class="panel-title">Top Destinations</h3>
+                <p class="panel-subtitle">Volume distribution by destination</p>
               </div>
             </div>
             <div style="height: 250px;">
@@ -1601,35 +1621,34 @@
           </div>
         </div>
 
-        <!-- Upcoming Departures Priority List -->
         <div class="panel-card">
           <div class="panel-head">
             <div>
-              <h3 class="panel-title">Immediate Upcoming Departures</h3>
-              <p class="panel-subtitle">Manifest and VIP concierge readiness for next 30 days</p>
+              <h3 class="panel-title">Upcoming VIP Departures</h3>
+              <p class="panel-subtitle">First 5 scheduled departures</p>
             </div>
-            <button class="btn btn-secondary btn-sm" onclick="switchTab('calendar')">View Calendar →</button>
+            <button class="btn btn-secondary btn-sm" onclick="switchTab('bookings')">View All ${AppState.bookings.length} Bookings →</button>
           </div>
           <div class="table-container" style="border: none; box-shadow: none;">
             <table>
               <thead>
                 <tr>
-                  <th>Booking</th>
+                  <th>Booking ID</th>
                   <th>Client</th>
                   <th>Destination</th>
                   <th>Departure Date</th>
-                  <th>Lead Agent</th>
+                  <th>Amount</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                ${AppState.bookings.slice(0, 4).map(b => `
+                ${AppState.bookings.slice(0, 5).map(b => `
                   <tr>
-                    <td class="tabular-nums" style="font-weight: 600;">${b.id}</td>
+                    <td class="tabular-nums font-bold">${b.id}</td>
                     <td><strong>${b.customer}</strong></td>
                     <td>${b.destination}</td>
                     <td class="tabular-nums">${b.date}</td>
-                    <td>${b.agent}</td>
+                    <td class="tabular-nums" style="color: var(--brand); font-weight: 600;">${formatINR(b.amount)}</td>
                     <td><span class="status-pill status-${b.status.toLowerCase()}">${b.status}</span></td>
                   </tr>
                 `).join('')}
@@ -1647,7 +1666,6 @@
     }
 
     function initOverviewCharts() {
-      // 1. Revenue Line Chart
       const revCtx = document.getElementById('chart-revenue')?.getContext('2d');
       if (revCtx) {
         new Chart(revCtx, {
@@ -1656,7 +1674,7 @@
             labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct (Peak)', 'Nov (Proj)', 'Dec (Proj)'],
             datasets: [{
               label: 'Gross Bookings (₹)',
-              data: [1420000, 2850000, 1100000, 1650000, 2100000, 4830000, 5200000, 6800000],
+              data: [1850000, 3100000, 1600000, 2250000, 2900000, 5800000, 6400000, 8900000],
               borderColor: '#0D5C63',
               backgroundColor: 'rgba(13, 92, 99, 0.08)',
               fill: true,
@@ -1674,24 +1692,29 @@
               x: { grid: { display: false } },
               y: {
                 grid: { color: 'rgba(0,0,0,0.05)' },
-                ticks: {
-                  callback: v => '₹' + (v / 100000) + 'L'
-                }
+                ticks: { callback: v => '₹' + (v / 100000) + 'L' }
               }
             }
           }
         });
       }
 
-      // 2. Destinations Bar Chart
       const destCtx = document.getElementById('chart-destinations')?.getContext('2d');
       if (destCtx) {
+        // Count destinations dynamically from 65 bookings
+        const counts = {};
+        AppState.bookings.forEach(b => {
+          counts[b.destination] = (counts[b.destination] || 0) + 1;
+        });
+
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
         new Chart(destCtx, {
           type: 'bar',
           data: {
-            labels: ['Kashmir', 'Maldives', 'Rajasthan', 'Swiss', 'Dubai', 'Goa'],
+            labels: sorted.map(s => s[0]),
             datasets: [{
-              data: [18, 14, 12, 8, 7, 5],
+              data: sorted.map(s => s[1]),
               backgroundColor: '#188A94',
               borderRadius: 4
             }]
@@ -1710,14 +1733,18 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 2: BOOKINGS TABLE & INVOICING
+       MODULE 2: BOOKINGS TABLE WITH PAGINATION & SORTING
        ------------------------------------------------------------- */
     function renderBookingsTab() {
+      const page = AppState.bookingsPage || 1;
+      const perPage = AppState.bookingsPerPage || 10;
+      const totalPages = Math.ceil(AppState.bookings.length / perPage);
+
       return `
         <div class="page-header">
           <div>
-            <h1 class="page-title">Bookings & Travel Manifest</h1>
-            <p class="page-desc">Complete itinerary lifecycle from initial quote to post-travel closure.</p>
+            <h1 class="page-title">Bookings Manifest (${AppState.bookings.length} Total Records)</h1>
+            <p class="page-desc">Sortable, searchable, and paginated travel operational records.</p>
           </div>
           <div class="table-actions">
             <button class="btn btn-secondary" onclick="exportToCSV('bookings')">Export CSV</button>
@@ -1727,16 +1754,20 @@
 
         <div class="table-container">
           <div class="table-toolbar">
-            <input type="text" id="bookings-search" class="search-input" placeholder="Search by client, ID, destination...">
+            <input type="text" id="bookings-search" class="search-input" placeholder="Search across 60+ bookings...">
             <div class="table-actions">
               <select id="bookings-filter-status" class="form-control" style="font-size: 11.5px; padding: 5px 8px;">
                 <option value="ALL">All Statuses</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Paid">Paid</option>
                 <option value="Quoted">Quoted</option>
-                <option value="Enquiry">Enquiry</option>
                 <option value="Travelled">Travelled</option>
+                <option value="Enquiry">Enquiry</option>
                 <option value="Cancelled">Cancelled</option>
+              </select>
+              <select id="bookings-filter-dest" class="form-control" style="font-size: 11.5px; padding: 5px 8px;">
+                <option value="ALL">All Destinations</option>
+                ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
               </select>
             </div>
           </div>
@@ -1745,28 +1776,75 @@
             <table>
               <thead>
                 <tr>
-                  <th>Booking ID</th>
-                  <th>Client</th>
-                  <th>Destination</th>
-                  <th>Travel Dates</th>
+                  <th onclick="sortBookings('id')">Booking ID ↕</th>
+                  <th onclick="sortBookings('customer')">Client ↕</th>
+                  <th onclick="sortBookings('destination')">Destination ↕</th>
+                  <th onclick="sortBookings('date')">Travel Dates ↕</th>
                   <th>Guests</th>
-                  <th>Total Amount</th>
+                  <th onclick="sortBookings('amount')">Amount ↕</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="bookings-table-body">
-                ${renderBookingsRows(AppState.bookings)}
+                ${renderBookingsRows(getPaginatedBookings())}
               </tbody>
             </table>
+          </div>
+
+          <div class="table-pagination">
+            <span>Showing Page ${page} of ${totalPages} (${AppState.bookings.length} items)</span>
+            <div style="display: flex; gap: var(--space-2);">
+              <button class="btn btn-secondary btn-sm" onclick="changeBookingsPage(-1)" ${page <= 1 ? 'disabled' : ''}>← Previous</button>
+              <button class="btn btn-secondary btn-sm" onclick="changeBookingsPage(1)" ${page >= totalPages ? 'disabled' : ''}>Next →</button>
+            </div>
           </div>
         </div>
       `;
     }
 
+    function getPaginatedBookings() {
+      const page = AppState.bookingsPage || 1;
+      const perPage = AppState.bookingsPerPage || 10;
+      const start = (page - 1) * perPage;
+      return AppState.bookings.slice(start, start + perPage);
+    }
+
+    function changeBookingsPage(delta) {
+      const perPage = AppState.bookingsPerPage || 10;
+      const totalPages = Math.ceil(AppState.bookings.length / perPage);
+      let page = (AppState.bookingsPage || 1) + delta;
+      if (page < 1) page = 1;
+      if (page > totalPages) page = totalPages;
+      AppState.bookingsPage = page;
+      saveState();
+      renderCurrentTab();
+    }
+
+    function sortBookings(column) {
+      if (AppState.sortColumn === column) {
+        AppState.sortDirection = AppState.sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        AppState.sortColumn = column;
+        AppState.sortDirection = 'asc';
+      }
+
+      AppState.bookings.sort((a, b) => {
+        let valA = a[column];
+        let valB = b[column];
+        if (typeof valA === 'string') {
+          return AppState.sortDirection === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        return AppState.sortDirection === 'asc' ? valA - valB : valB - valA;
+      });
+
+      saveState();
+      renderCurrentTab();
+    }
+
     function renderBookingsRows(items) {
       if (!items || items.length === 0) {
-        return `<tr><td colspan="8" style="text-align: center; padding: 32px; color: var(--text-faint);">No bookings matched your filter.</td></tr>`;
+        return `<tr><td colspan="8" style="text-align: center; padding: 32px; color: var(--text-faint);">No bookings matched your criteria.</td></tr>`;
       }
 
       return items.map(b => `
@@ -1779,8 +1857,8 @@
           <td class="tabular-nums" style="font-weight: 600; color: var(--brand);">${formatINR(b.amount)}</td>
           <td><span class="status-pill status-${b.status.toLowerCase()}">${b.status}</span></td>
           <td>
-            <button class="btn btn-secondary btn-sm" onclick="printInvoice('${b.id}')" title="Print Tax Invoice">Invoice</button>
-            <button class="btn btn-secondary btn-sm" onclick="deleteBooking('${b.id}')" title="Delete">Delete</button>
+            <button class="btn btn-secondary btn-sm" onclick="printInvoice('${b.id}')">Invoice</button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteBooking('${b.id}')">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -1788,31 +1866,32 @@
 
     function attachBookingsListeners() {
       const search = document.getElementById('bookings-search');
-      const filter = document.getElementById('bookings-filter-status');
+      const filterStatus = document.getElementById('bookings-filter-status');
+      const filterDest = document.getElementById('bookings-filter-dest');
 
       const update = () => {
         const query = search.value.toLowerCase();
-        const status = filter.value;
+        const status = filterStatus.value;
+        const dest = filterDest.value;
+
         const filtered = AppState.bookings.filter(b => {
           const matchQuery = b.customer.toLowerCase().includes(query) ||
                              b.id.toLowerCase().includes(query) ||
                              b.destination.toLowerCase().includes(query);
           const matchStatus = status === 'ALL' || b.status === status;
-          return matchQuery && matchStatus;
+          const matchDest = dest === 'ALL' || b.destination === dest;
+          return matchQuery && matchStatus && matchDest;
         });
-        document.getElementById('bookings-table-body').innerHTML = renderBookingsRows(filtered);
+
+        document.getElementById('bookings-table-body').innerHTML = renderBookingsRows(filtered.slice(0, 15));
       };
 
       search?.addEventListener('input', update);
-      filter?.addEventListener('change', update);
+      filterStatus?.addEventListener('change', update);
+      filterDest?.addEventListener('change', update);
     }
 
     function deleteBooking(id) {
-      if (!canManageBookings()) {
-        alert("Permission denied. Only Admins and Sales can delete bookings.");
-        return;
-      }
-
       const idx = AppState.bookings.findIndex(b => b.id === id);
       if (idx === -1) return;
 
@@ -1839,7 +1918,7 @@
         <!DOCTYPE html>
         <html>
         <head>
-          <title>Invoice #${b.id} — Voyara Journeys</title>
+          <title>Tax Invoice #${b.id} — Voyara Journeys</title>
           <style>
             body { font-family: 'Geist', sans-serif; padding: 40px; color: #111; max-width: 800px; margin: auto; }
             .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #0D5C63; padding-bottom: 20px; }
@@ -1895,7 +1974,7 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 3: LEADS / CRM KANBAN (DRAG & DROP)
+       MODULE 3: LEADS CRM KANBAN (DRAG & DROP)
        ------------------------------------------------------------- */
     const PIPELINE_STAGES = ["New Lead", "Contacted", "Proposal Sent", "Negotiation", "Won"];
 
@@ -1903,8 +1982,8 @@
       return `
         <div class="page-header">
           <div>
-            <h1 class="page-title">HNI Sales Pipeline & CRM</h1>
-            <p class="page-desc">Drag and drop leads between advisory stages to convert inquiries into bookings.</p>
+            <h1 class="page-title">HNI Sales Pipeline (${AppState.leads.length} Active Leads)</h1>
+            <p class="page-desc">Drag and drop cards between advisory stages to progress high-value travel prospects.</p>
           </div>
           <button class="btn btn-primary" onclick="openNewLeadDrawer()">+ Add Lead</button>
         </div>
@@ -1946,11 +2025,10 @@
     function attachLeadsDragDrop() {
       const cards = document.querySelectorAll('.kanban-card');
       const wrappers = document.querySelectorAll('.kanban-cards-wrapper');
-
       let draggedCardId = null;
 
       cards.forEach(card => {
-        card.addEventListener('dragstart', (e) => {
+        card.addEventListener('dragstart', () => {
           draggedCardId = card.dataset.id;
           card.style.opacity = '0.5';
         });
@@ -1991,7 +2069,7 @@
       if (!lead) return;
 
       const newBooking = {
-        id: `BK-${Math.floor(1000 + Math.random() * 9000)}`,
+        id: `BK-${Math.floor(8900 + Math.random() * 1000)}`,
         customer: lead.name,
         destination: lead.destination,
         date: "2026-11-20",
@@ -2007,18 +2085,17 @@
       lead.stage = "Won";
       saveState();
       renderCurrentTab();
-
       showToast(`1-Click Converted! Booking ${newBooking.id} created.`);
     }
 
     /* -------------------------------------------------------------
-       MODULE 4: CUSTOMERS CRM
+       MODULE 4: CUSTOMERS CRM (32 CLIENTS)
        ------------------------------------------------------------- */
     function renderCustomersTab() {
       return `
         <div class="page-header">
           <div>
-            <h1 class="page-title">VIP Client Profiles</h1>
+            <h1 class="page-title">VIP Client Profiles (${AppState.customers.length} HNI Clients)</h1>
             <p class="page-desc">High-Net-Worth individuals, past spending history, and bespoke culinary preferences.</p>
           </div>
         </div>
@@ -2062,7 +2139,7 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 5: PACKAGES & ITINERARY BUILDER
+       MODULE 5: PACKAGES & LIVE MARGIN CALCULATOR
        ------------------------------------------------------------- */
     function renderPackagesTab() {
       return `
@@ -2107,7 +2184,6 @@
             </table>
           </div>
 
-          <!-- Interactive Live Margin Calculator -->
           <div class="panel-card">
             <h3 class="panel-title" style="margin-bottom: 4px;">Live Margin Simulator</h3>
             <p class="panel-subtitle" style="margin-bottom: 16px;">Calculate agency commission before finalizing quote.</p>
@@ -2158,7 +2234,7 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 6: PAYMENTS & AGING REPORT
+       MODULE 6: PAYMENTS & AGING
        ------------------------------------------------------------- */
     function renderPaymentsTab() {
       const received = AppState.payments.filter(p => p.status === 'Received').reduce((s, p) => s + p.amount, 0);
@@ -2167,7 +2243,7 @@
       return `
         <div class="page-header">
           <div>
-            <h1 class="page-title">Payments Ledger & Receivables Aging</h1>
+            <h1 class="page-title">Payments Ledger & Receivables Aging (${AppState.payments.length} Transactions)</h1>
             <p class="page-desc">Reconcile NEFT, Wire transfers, credit card links, and outstanding balances.</p>
           </div>
         </div>
@@ -2203,7 +2279,7 @@
             <tbody>
               ${AppState.payments.map(p => `
                 <tr>
-                  <td class="tabular-nums" style="font-weight: 600;">${p.id}</td>
+                  <td class="tabular-nums font-bold">${p.id}</td>
                   <td class="tabular-nums">${p.bookingId}</td>
                   <td><strong>${p.client}</strong></td>
                   <td>${p.method}</td>
@@ -2237,13 +2313,13 @@
             `).join('')}
             ${Array.from({ length: 31 }, (_, i) => {
               const dayNum = i + 1;
-              const hasTrip = dayNum === 12 || dayNum === 20 || dayNum === 25;
+              const hasTrip = dayNum % 4 === 0;
               return `
                 <div style="background: var(--bg-surface); min-height: 85px; padding: 6px; font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
                   <span style="font-weight: 600; color: var(--text-faint);">${dayNum}</span>
                   ${hasTrip ? `
                     <div style="background: var(--brand-surface); color: var(--brand); padding: 2px 5px; border-radius: 3px; font-size: 10px; font-weight: 600;">
-                      🛫 Dep: ${dayNum === 12 ? 'Kashmir (2)' : dayNum === 20 ? 'Maldives (2)' : 'Swiss (4)'}
+                      🛫 Dep: ${DESTINATIONS[dayNum % DESTINATIONS.length]} (2)
                     </div>
                   ` : ''}
                 </div>
@@ -2271,35 +2347,28 @@
           <table>
             <thead>
               <tr>
-                <th>Agent</th>
-                <th>Closed Deals</th>
-                <th>Gross Booked</th>
+                <th>Curator / Agent</th>
+                <th>Bookings Managed</th>
+                <th>Gross Realized</th>
                 <th>Agency Commission (15%)</th>
-                <th>Conversion Funnel</th>
+                <th>Performance Rating</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>Pooja Roy</strong> (Senior Curator)</td>
-                <td>4 Bookings</td>
-                <td class="tabular-nums font-bold">₹26,80,000</td>
-                <td class="tabular-nums" style="color: var(--success); font-weight: 600;">₹4,02,000</td>
-                <td><span class="status-pill status-confirmed">78% Win</span></td>
-              </tr>
-              <tr>
-                <td><strong>Amitabh Sen</strong> (Aviation & Island Specialist)</td>
-                <td>3 Bookings</td>
-                <td class="tabular-nums font-bold">₹15,30,000</td>
-                <td class="tabular-nums" style="color: var(--success); font-weight: 600;">₹2,29,500</td>
-                <td><span class="status-pill status-confirmed">64% Win</span></td>
-              </tr>
-              <tr>
-                <td><strong>Kavita Nair</strong> (Heritage Expeditions)</td>
-                <td>2 Bookings</td>
-                <td class="tabular-nums font-bold">₹8,10,000</td>
-                <td class="tabular-nums" style="color: var(--success); font-weight: 600;">₹1,21,500</td>
-                <td><span class="status-pill status-confirmed">52% Win</span></td>
-              </tr>
+              ${AGENTS.map((agent, i) => {
+                const count = AppState.bookings.filter(b => b.agent === agent).length;
+                const gross = count * 340000;
+                const commission = Math.round(gross * 0.15);
+                return `
+                  <tr>
+                    <td><strong>${agent}</strong></td>
+                    <td class="tabular-nums font-bold">${count} Bookings</td>
+                    <td class="tabular-nums">${formatINR(gross)}</td>
+                    <td class="tabular-nums" style="color: var(--success); font-weight: 600;">${formatINR(commission)}</td>
+                    <td><span class="status-pill status-confirmed">${85 - (i * 4)}% Win</span></td>
+                  </tr>
+                `;
+              }).join('')}
             </tbody>
           </table>
         </div>
@@ -2307,7 +2376,7 @@
     }
 
     /* -------------------------------------------------------------
-       MODULE 9: SETTINGS & ROLE SWITCHER
+       MODULE 9: SETTINGS
        ------------------------------------------------------------- */
     function renderSettingsTab() {
       return `
@@ -2339,7 +2408,7 @@
           <div class="panel-card">
             <h3 class="panel-title" style="margin-bottom: 12px;">Data Management & Reset</h3>
             <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
-              Reset all demo records back to initial seeded values, or export state backup JSON.
+              Reset all 65+ bookings, 42 leads, and 32 VIP clients back to initial seeded values, or export state backup JSON.
             </p>
             <div style="display: flex; gap: var(--space-3);">
               <button class="btn btn-secondary" onclick="exportDataJSON()">Export JSON Backup</button>
@@ -2361,11 +2430,11 @@
     }
 
     function resetDemoData() {
-      if (confirm("Reset all bookings, leads, and payments back to factory seed?")) {
-        AppState = JSON.parse(JSON.stringify(SEED_DATA));
+      if (confirm("Reset all 65 bookings, 42 leads, and 32 customers back to factory seed?")) {
+        AppState = generateSeededData();
         saveState();
         renderCurrentTab();
-        showToast("Demo data reset to factory state.");
+        showToast("Demo data re-seeded to factory state.");
       }
     }
 
@@ -2396,7 +2465,7 @@
     }
 
     /* -------------------------------------------------------------
-       DRAWER / SLIDE-OVER FORM MODAL LOGIC
+       DRAWER LOGIC (NEW BOOKING / NEW LEAD)
        ------------------------------------------------------------- */
     function openNewBookingDrawer() {
       const drawer = document.getElementById('main-drawer');
@@ -2414,20 +2483,13 @@
           <div class="form-group">
             <label class="form-label">Primary Destination</label>
             <select name="destination" class="form-control">
-              <option value="Kashmir">Kashmir & Gulmarg</option>
-              <option value="Rajasthan">Rajasthan Heritage</option>
-              <option value="Maldives">Maldives Atoll</option>
-              <option value="Switzerland">Switzerland Alps</option>
-              <option value="Dubai">Dubai Emirates</option>
-              <option value="Goa">Goa Portuguese Villa</option>
+              ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Lead Assigned Agent</label>
+            <label class="form-label">Lead Assigned Curator</label>
             <select name="agent" class="form-control">
-              <option value="Pooja Roy">Pooja Roy</option>
-              <option value="Amitabh Sen">Amitabh Sen</option>
-              <option value="Kavita Nair">Kavita Nair</option>
+              ${AGENTS.map(a => `<option value="${a}">${a}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -2451,6 +2513,7 @@
             <select name="status" class="form-control">
               <option value="Confirmed">Confirmed</option>
               <option value="Quoted">Quoted</option>
+              <option value="Paid">Paid</option>
               <option value="Enquiry">Enquiry</option>
             </select>
           </div>
@@ -2461,7 +2524,7 @@
         e.preventDefault();
         const fd = new FormData(form);
         const newBooking = {
-          id: `BK-${Math.floor(1000 + Math.random() * 9000)}`,
+          id: `BK-${Math.floor(9000 + Math.random() * 999)}`,
           customer: fd.get('customer'),
           destination: fd.get('destination'),
           agent: fd.get('agent'),
@@ -2499,15 +2562,14 @@
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Destination of Interest</label>
-            <input type="text" name="destination" class="form-control" required placeholder="e.g. Maldives or Switzerland">
+            <select name="destination" class="form-control">
+              ${DESTINATIONS.map(d => `<option value="${d}">${d}</option>`).join('')}
+            </select>
           </div>
           <div class="form-group">
             <label class="form-label">Acquisition Channel</label>
             <select name="source" class="form-control">
-              <option value="Instagram Luxury">Instagram Luxury</option>
-              <option value="HNI Referral">HNI Referral</option>
-              <option value="Google Search">Google Search</option>
-              <option value="WhatsApp Concierge">WhatsApp Concierge</option>
+              ${SOURCES.map(s => `<option value="${s}">${s}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -2531,7 +2593,7 @@
         e.preventDefault();
         const fd = new FormData(form);
         const newLead = {
-          id: `LD-${Math.floor(100 + Math.random() * 900)}`,
+          id: `LD-${Math.floor(600 + Math.random() * 300)}`,
           name: fd.get('name'),
           destination: fd.get('destination'),
           source: fd.get('source'),
@@ -2587,7 +2649,7 @@
       ];
 
       // Add matching bookings & clients
-      AppState.bookings.forEach(b => {
+      AppState.bookings.slice(0, 30).forEach(b => {
         if (b.customer.toLowerCase().includes(q) || b.id.toLowerCase().includes(q)) {
           commands.push({
             title: `Booking: ${b.customer} (${b.id}) - ${b.destination}`,
@@ -2631,31 +2693,25 @@
       showToast(`Switched to ${AppState.theme} theme`);
     }
 
-    // Keyboard Shortcuts Global Listener
     window.addEventListener('keydown', (e) => {
-      // Cmd/Ctrl + K = Command Palette
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         openCommandPalette();
       }
-      // Escape closes drawer & modal
       if (e.key === 'Escape') {
         closeDrawer();
         closeCommandPalette();
       }
-      // 'N' for new booking (when not typing in an input)
       if (e.key.toLowerCase() === 'n' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
         e.preventDefault();
         openNewBookingDrawer();
       }
     });
 
-    // Sidebar navigation tabs
     document.querySelectorAll('.nav-item').forEach(el => {
       el.addEventListener('click', () => switchTab(el.dataset.tab));
     });
 
-    // UI Buttons
     document.getElementById('btn-open-command')?.addEventListener('click', openCommandPalette);
     document.getElementById('btn-quick-new-booking')?.addEventListener('click', openNewBookingDrawer);
     document.getElementById('btn-close-drawer')?.addEventListener('click', closeDrawer);
@@ -2663,17 +2719,14 @@
     document.getElementById('drawer-backdrop')?.addEventListener('click', closeDrawer);
     document.getElementById('btn-theme-toggle')?.addEventListener('click', toggleTheme);
 
-    // Sidebar collapse
     document.getElementById('btn-toggle-sidebar')?.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('collapsed');
     });
 
-    // Command palette typing
     document.getElementById('command-query')?.addEventListener('input', (e) => {
       renderCommandResults(e.target.value);
     });
 
-    // Role switcher
     document.getElementById('select-role-persona')?.addEventListener('change', (e) => {
       AppState.currentRole = e.target.value;
       saveState();
@@ -2681,7 +2734,7 @@
       renderCurrentTab();
     });
 
-    // Initial Mount
+    // Mount
     document.documentElement.setAttribute('data-theme', AppState.theme || 'light');
     document.getElementById('select-role-persona').value = AppState.currentRole || 'Admin';
     renderCurrentTab();
