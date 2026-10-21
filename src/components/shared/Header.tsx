@@ -66,28 +66,22 @@ export function Header() {
 
         {/* Right Actions */}
         <div className="hidden sm:flex items-center gap-3">
-          {/* Currency Switcher */}
-          <button
-            type="button"
-            onClick={() => {
-              const list = ["INR (₹)", "USD ($)", "EUR (€)", "GBP (£)"];
-              const nextIndex = (list.indexOf(currency) + 1) % list.length;
-              setCurrency(list[nextIndex]);
-            }}
-            className="flex items-center gap-1 text-[11px] font-mono text-sand/70 hover:text-sand px-2.5 py-1.5 border border-teal-soft/30 hover:border-teal-soft/60 transition-all bg-[#092A2D]/50"
-            title="Toggle currency"
+          {/* Sign In & Agency Portal */}
+          <Link
+            href="/login"
+            className="text-xs font-mono uppercase tracking-wider text-sand/80 hover:text-sand px-3 py-1.5 border border-sand/20 hover:border-sand/40 transition-colors"
           >
-            <IndianRupee className="w-3 h-3 text-terracotta" />
-            <span>{currency.split(" ")[0]}</span>
-          </button>
+            Sign In
+          </Link>
 
-          {/* Main "Plan My Trip" Button */}
-          <a
-            href="#contact"
-            className="py-2 px-5 bg-terracotta hover:bg-terracotta-soft text-white font-mono text-xs font-semibold uppercase tracking-wider transition-all shadow-md"
+          {/* Main "Agency Portal" Button */}
+          <Link
+            href="/app"
+            className="py-2 px-4 bg-terracotta hover:bg-terracotta-soft text-white font-mono text-xs font-semibold uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5"
           >
-            Plan My Trip
-          </a>
+            <Sparkles className="w-3.5 h-3.5" />
+            Agency Cockpit
+          </Link>
         </div>
 
         {/* Mobile Hamburger Toggle */}

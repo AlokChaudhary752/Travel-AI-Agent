@@ -17,6 +17,7 @@ import { RefundCancellationModal } from "@/features/agency/components/RefundCanc
 import { ExpertCallbackModal } from "@/features/agency/components/ExpertCallbackModal";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import { EditorialJsonLd } from "@/components/seo/EditorialJsonLd";
+import { B2BPricingSection } from "@/features/agency/components/B2BPricingSection";
 
 export default function AgencyHomePage() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -67,7 +68,10 @@ export default function AgencyHomePage() {
       {/* 9. Editorial Field Journal */}
       <EditorialJournal />
 
-      {/* 10. Travel Guides & FAQ Accordion with Refund Summary */}
+      {/* 10. B2B Agency SaaS Pricing Section */}
+      <B2BPricingSection />
+
+      {/* 11. Travel Guides & FAQ Accordion with Refund Summary */}
       <FAQAccordion
         onOpenRefundModal={() => setRefundModalOpen(true)}
         onOpenCallbackModal={() => setCallbackModalOpen(true)}
