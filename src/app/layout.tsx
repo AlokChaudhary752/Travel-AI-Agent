@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { AuthProvider } from "@/lib/authContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -102,7 +103,9 @@ export default function RootLayout({
       <body suppressHydrationWarning className="bg-bg text-ivory antialiased selection:bg-gold selection:text-bg">
         <div className="film-grain" aria-hidden="true" />
         <CustomCursor />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
